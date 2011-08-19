@@ -214,6 +214,7 @@ musicwidget.output_size = 30 -- Set the size of widget in symbols
 musicwidget.update_interval = 4 -- Set the update interval in seconds
 -- Set the folder where icons are located (change username to your login name)
 musicwidget.path_to_icons = "/home/raph/.config/awesome/awesompd/icons" 
+musicwidget.mpd_config = "/home/raph/.mpd/mpd.conf"
 -- Set the default music format for Jamendo streams. You can change
 -- this option on the fly in awesompd itself.
 -- possible formats: awesompd.FORMAT_MP3, awesompd.FORMAT_OGG
