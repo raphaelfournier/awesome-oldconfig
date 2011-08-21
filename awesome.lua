@@ -578,7 +578,7 @@ globalkeys = awful.util.table.join(
 -- || dmenu permet d'avoir une liste de toutes les applications dans le $PATH et de
 -- les lancer en ne saisissant que les premieres lettres
 --    awful.key({ modkey,           }, "<", function () awful.util.spawn("sh /home/raph/scripts/dmenu.sh")       end),
-    awful.key({ modkey,           }, "<", function () awful.util.spawn("dmenu_run -i -b -f -p 'Run command:' -nb '" .. beautiful.fg_focus .. "' -nf '" .. beautiful.bg_normal .. "' -sb '" .. beautiful.fg_urgent .. "' -sf '" .. beautiful.bg_normal .. "' -fn '-*-liberation mono-*-r-*-*-*-120-*-*-*-*-*-*'") end), 
+    awful.key({ modkey,           }, "<", function () awful.util.spawn("dmenu_run -i -b -f -p 'Run command:' -nb '" .. beautiful.border_focus .. "' -nf '" .. beautiful.bg_normal .. "' -sb '" .. beautiful.bg_normal .. "' -sf '" .. beautiful.fg_urgent .. "' -fn '-*-liberation mono-*-r-*-*-*-120-*-*-*-*-*-*'") end), 
 
 -- || quelques commandes pour regler le volume
     awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset PCM 2%+") end),
