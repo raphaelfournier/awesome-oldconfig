@@ -86,11 +86,9 @@ end
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/awesome.lua" },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
+mycomputermenu = {
+   { "reboot", "sudo reboot" },
+   { "shutdown", "sudo halt" }
 }
 myappsmenu = {
    { "firefox", function() awful.util.spawn("firefox") end},
@@ -126,19 +124,23 @@ function theme_menu()
 
    f:close()
 end
-
 -- Generate your table at startup or restart
 theme_menu()
 
+myawesomemenu = {
+   { "manual", terminal .. " -e man awesome" },
+   { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/awesome.lua" },
+   { "Theme", mythememenu },
+   { "restart", awesome.restart },
+   { "quit", awesome.quit }
+}
 
-mymainmenu = awful.menu.new({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                        { "apps", myappsmenu },
-                                        { "open terminal", terminal },
-                                        { "themes", mythememenu },
-                                        { "restart WM", awesome.restart },
-                                        { "quit WM", awesome.quit },
-                                        { "reboot", "sudo reboot" },
-                                        { "shutdown", "sudo halt" }
+
+mymainmenu = awful.menu.new({ items = { 
+                                        { "Applications", myappsmenu },
+                                        { "Terminal", terminal },
+                                        { "Awesome", myawesomemenu, beautiful.awesome_icon },
+                                        { "Computer", mycomputermenu },
                                       }
                             })
 
@@ -237,7 +239,7 @@ generalvolwidget:buttons(awful.util.table.join(
 
 require("awesompd.awesompd")
 musicwidget = awesompd:create() -- Create awesompd widget
-musicwidget.font = "Inconsolata Medium 12" -- Set widget font 
+musicwidget.font = beautiful.font -- Set widget font 
 musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
 musicwidget.output_size = 30 -- Set the size of widget in symbols
 musicwidget.update_interval = 4 -- Set the update interval in seconds
