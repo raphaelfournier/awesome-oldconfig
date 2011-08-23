@@ -242,6 +242,9 @@ musicwidget.font = "Inconsolata Medium 12" -- Set widget font
 musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
 musicwidget.output_size = 30 -- Set the size of widget in symbols
 musicwidget.update_interval = 4 -- Set the update interval in seconds
+musicwidget.notifications = false
+musicwidget.textcolor_play = beautiful.fg_urgent
+musicwidget.textcolor_pause = beautiful.fg_normal
 -- Set the folder where icons are located (change username to your login name)
 musicwidget.path_to_icons = "/home/raph/.config/awesome/awesompd/icons" 
 musicwidget.mpd_config = "/home/raph/.mpd/mpd.conf"
@@ -252,8 +255,6 @@ musicwidget.jamendo_format = awesompd.FORMAT_MP3
 -- If true, song notifications for Jamendo tracks will also contain
 -- album cover image.
 instance.show_jamendo_album_covers = true
--- Specify how big in pixels should an album cover be. Maximum value
--- is 100.
 instance.album_cover_size = 150
 -- Specify decorators on the left and the right side of the
 -- widget. Or just leave empty strings if you decorate the widget
@@ -279,19 +280,19 @@ musicwidget:run() -- After all configuration is done, run the widget
 ----
 ---- {{{ Mail 
 mailwidget0 = widget({ type = "textbox" })
-vicious.register(mailwidget0, vicious.widgets.mdir, '<span color="' .. beautiful.fg_normal .. '">RF</span> $1', 61, {home ..  "/Mail/Rfnet/INBOX"})
+vicious.register(mailwidget0, vicious.widgets.mdir, '<span color="' .. beautiful.border_focus .. '">RF</span> $1', 61, {home ..  "/Mail/Rfnet/INBOX"})
 --mailwidget0:buttons(awful.util.table.join(
 --  awful.button({ }, 1, function () exec("urxvt -T Mutt -e mutt") end)
 --))
 
 mailwidget1 = widget({ type = "textbox" })
-vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="' .. beautiful.fg_normal .. '">LB</span> $1', 61, {home ..  "/Mail/Lavabit/Inbox"})
+vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="' .. beautiful.border_focus .. '">LB</span> $1', 61, {home ..  "/Mail/Lavabit/Inbox"})
 
 mailwidget2 = widget({ type = "textbox" })
-vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful.fg_normal .. '">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
+vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful.fg_urgent .. '">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
 --
 weatherwidget = widget({ type = "textbox" })
-vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beautiful.fg_normal ..'">${tempc}°C</span>', 307, "LFPO")
+vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beautiful.fg_focus ..'">${tempc}°C</span>', 307, "LFPO")
 --weatherwidget:add_signal("mouse::enter", function() weather_popup() end)
 --weatherwidget:add_signal("mouse::leave", function() weather_popdown() end)
 
@@ -506,7 +507,9 @@ for s = 1, screen.count() do
         datewidget,
         spacesep,batwidget,
         spacesep,batwidget2,
-        spacesep,weatherwidget,
+        spacesep,mailwidget0,
+        spacesep,mailwidget1,
+        spacesep,mailwidget2,
         spacesep,
         --barsep,
         --spacesep,
@@ -514,9 +517,7 @@ for s = 1, screen.count() do
 --        spacesep,vol,
         --spacesep,
         --barsep,
-        spacesep,mailwidget0,
-        spacesep,mailwidget1,
-        spacesep,mailwidget2,
+        spacesep,weatherwidget,
 --        spacesep,barsep,
 --        spacesep,
 --        mpdwidget,
