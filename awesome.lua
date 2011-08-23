@@ -15,7 +15,8 @@ require("vicious.contrib")
 -- Themes define colours, icons, and wallpapers
 --beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 local home   = os.getenv("HOME")
-beautiful.init(home .. "/.config/awesome/themes/zenburn/theme.lua")
+--beautiful.init(home .. "/.config/awesome/themes/zenburn/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
@@ -104,10 +105,39 @@ myappsmenu = {
    { "mpc", function() awful.util.spawn("mpc toggle") end},
    { "vlc", function() awful.util.spawn("vlc") end},
 }
+mythememenu = {}
+
+function theme_load(theme)
+   local cfg_path = awful.util.getdir("config")
+
+   -- Create a symlink from the given theme to /home/user/.config/awesome/current_theme
+   awful.util.spawn("ln -sfn " .. cfg_path .. "/themes/" .. theme .. " " .. cfg_path .. "/themes/current_theme")
+   awesome.restart()
+end
+
+function theme_menu()
+   -- List your theme files and feed the menu table
+   local cmd = "ls -1 " .. awful.util.getdir("config") .. "/themes/"
+   local f = io.popen(cmd)
+
+   for l in f:lines() do
+    local item = { l, function () theme_load(l) end }
+    table.insert(mythememenu, item)
+   end
+
+   f:close()
+end
+
+-- Generate your table at startup or restart
+theme_menu()
+
 
 mymainmenu = awful.menu.new({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                         { "apps", myappsmenu },
                                         { "open terminal", terminal },
+                                        { "themes", mythememenu },
+                                        { "restart WM", awesome.restart },
+                                        { "quit WM", awesome.quit },
                                         { "reboot", "sudo reboot" },
                                         { "shutdown", "sudo halt" }
                                       }
@@ -249,19 +279,19 @@ musicwidget:run() -- After all configuration is done, run the widget
 ----
 ---- {{{ Mail 
 mailwidget0 = widget({ type = "textbox" })
-vicious.register(mailwidget0, vicious.widgets.mdir, '<span color="#87af87">RF</span> $1', 61, {home ..  "/Mail/Rfnet/INBOX"})
+vicious.register(mailwidget0, vicious.widgets.mdir, '<span color="' .. beautiful.fg_normal .. '">RF</span> $1', 61, {home ..  "/Mail/Rfnet/INBOX"})
 --mailwidget0:buttons(awful.util.table.join(
 --  awful.button({ }, 1, function () exec("urxvt -T Mutt -e mutt") end)
 --))
 
 mailwidget1 = widget({ type = "textbox" })
-vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="#87af87">LB</span> $1', 61, {home ..  "/Mail/Lavabit/Inbox"})
+vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="' .. beautiful.fg_normal .. '">LB</span> $1', 61, {home ..  "/Mail/Lavabit/Inbox"})
 
 mailwidget2 = widget({ type = "textbox" })
-vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="#d78787">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
+vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful.fg_normal .. '">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
 --
 weatherwidget = widget({ type = "textbox" })
-vicious.register(weatherwidget, vicious.widgets.weather, '<span color="#dfaf8f">${tempc}°C</span>', 307, "LFPO")
+vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beautiful.fg_normal ..'">${tempc}°C</span>', 307, "LFPO")
 --weatherwidget:add_signal("mouse::enter", function() weather_popup() end)
 --weatherwidget:add_signal("mouse::leave", function() weather_popdown() end)
 
@@ -302,7 +332,7 @@ vicious.register(weatherwidget, vicious.widgets.weather, '<span color="#dfaf8f">
 ----end
 --
 datewidget = widget({ type = "textbox" })
-vicious.register(datewidget, vicious.widgets.date, '<span color="#60b48a">%a %d %b %R</span>', 61)
+vicious.register(datewidget, vicious.widgets.date, '<span color="' .. beautiful.border_focus .. '">%a %d %b %R</span>', 61)
 
 datewidget:buttons(awful.util.table.join(
                     awful.button({ }, 1, function() add_calendar(0) end),
