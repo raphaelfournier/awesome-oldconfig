@@ -292,11 +292,11 @@ vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="' .. beautiful
 mailwidget2 = widget({ type = "textbox" })
 vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful.fg_urgent .. '">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
 --
-weatherwidget = widget({ type = "textbox" })
-vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beautiful.fg_focus ..'">${tempc}°C</span>', 307, "LFPO")
+--weatherwidget = widget({ type = "textbox" })
+--vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beautiful.fg_focus ..'">${tempc}°C</span>', 307, "LFLC")
 --weatherwidget:add_signal("mouse::enter", function() weather_popup() end)
 --weatherwidget:add_signal("mouse::leave", function() weather_popdown() end)
-
+--
 --function weather_popup()
 --        table = vicious.widgets.weather(nil,"LFPO")
 --        toto=awful.util.pread("weather -i LFPO")
@@ -311,6 +311,30 @@ vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beau
 --  naughty.destroy(bla)
 --  bla = nil
 --end
+--Create a weather widget
+
+weatherwidget = widget({ type = "textbox" })
+metarid = "LFLC"
+text = awful.util.pread("weather -i " .. metarid .. " --headers=Temperature --quiet -m | awk '{printf(\"%s%s\",$2,\"°C\")}'")
+weatherwidget.text = '<span color="' .. beautiful.fg_focus .. '">' .. text .. '</span>'
+weathertimer = timer( { timeout = 900 } ) 
+weathertimer:add_signal(
+  "timeout", function() 
+     weatherwidget.text = awful.util.pread(
+     "weather -i " .. metarid .. " --headers=Temperature --quiet -m | awk '{print $2, $3}' &"
+   ) --replace METARID and remove -m if you want Fahrenheit
+ end)
+
+weathertimer:start() -- Start the timer
+weatherwidget:buttons(awful.util.table.join(
+                    awful.button({ }, 1, function() 
+  weather = naughty.notify({
+    title="Weather",
+    timeout = 10, hover_timeout = 10,
+    text=awful.util.pread("weather -i " .. metarid .. " -m")
+})
+ end)
+              ))
 ----
 --
 ----todowidget = widget({ type = "textbox" })
@@ -564,7 +588,7 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
 -- ||avec le toggle(true) ci-dessous, on permet la navigation avec le clavier dans le menu 
-    awful.key({ modkey,           }, "z", function () mymainmenu:toggle(true)        end),
+    awful.key({ modkey,           }, "z", function () mymainmenu:toggle()        end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
