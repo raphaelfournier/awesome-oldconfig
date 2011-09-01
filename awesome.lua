@@ -50,17 +50,17 @@ layouts =
 --    awful.layout.suit.magnifier,             --11
 --    awful.layout.suit.floating               --12
     awful.layout.suit.tile,--1
-    awful.layout.suit.max,         --2
+    awful.layout.suit.tile.bottom,         --2
     awful.layout.suit.tile.left,         --3
     awful.layout.suit.tile.top,         --4
-    awful.layout.suit.floating,         --5
     awful.layout.suit.fair,            --6
     awful.layout.suit.fair.horizontal,         --7
     awful.layout.suit.spiral,                 --8
     awful.layout.suit.spiral.dwindle,         --9
+    awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,             --10
-    awful.layout.suit.max.fullscreen,         --11
-    awful.layout.suit.tile.bottom           --12
+    awful.layout.suit.floating,         --5
+    awful.layout.suit.max,         --11
 }
 -- }}}
 
@@ -79,7 +79,7 @@ layout = { layouts[1], --1
 
 for s = 1, screen.count() do
   tags[s] = awful.tag(tags.names, s, tags.layout)
-  awful.tag.setproperty(tags[s][2], "mwfact", 0.62)
+  awful.tag.setproperty(tags[s][2], "mwfact", 0.72)
   awful.tag.setproperty(tags[s][3], "mwfact", 0.62)
   awful.tag.setproperty(tags[s][4], "mwfact", 0.62)
 end
@@ -314,17 +314,12 @@ vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful
 --Create a weather widget
 
 weatherwidget = widget({ type = "textbox" })
-metarid = "LFLC"
-text = awful.util.pread("weather -i " .. metarid .. " --headers=Temperature --quiet -m | awk '{printf(\"%s%s\",$2,\"°C\")}'")
+metarid = "LFPO"
+command = "weather -i " .. metarid .. " --headers=Temperature --quiet -m | awk '{printf(\"%s%s\",$2,\"°C\")}'"
+text = awful.util.pread(command) or ""
 weatherwidget.text = '<span color="' .. beautiful.fg_focus .. '">' .. text .. '</span>'
 weathertimer = timer( { timeout = 900 } ) 
-weathertimer:add_signal(
-  "timeout", function() 
-     weatherwidget.text = awful.util.pread(
-     "weather -i " .. metarid .. " --headers=Temperature --quiet -m | awk '{print $2, $3}' &"
-   ) --replace METARID and remove -m if you want Fahrenheit
- end)
-
+weathertimer:add_signal( "timeout", function() weatherwidget.text = awful.util.pread(command .. " &") end)
 weathertimer:start() -- Start the timer
 weatherwidget:buttons(awful.util.table.join(
                     awful.button({ }, 1, function() 
@@ -607,7 +602,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "x", function () awful.util.spawn(terminal) end),
     -- lance un terminal en slave
-    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal,false) end),
+    awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn(terminal,false) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
 -- Newt command brutally quits Awesome !!
 --    awful.key({ modkey, "Shift"   }, "q", awesome.quit), 
@@ -826,7 +821,10 @@ awful.rules.rules = {
                      size_hints_honor = false,
                      focus = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons }, 
+ -- Start windows as slave
+      callback = awful.client.setslave },
+   { rule = { name = "Matplotlib"}, properties = { }, callback = not awful.client.setslave },
 -- permet d'assigner à chaque aplication un tag -> firefox toujours sur le tag
 -- 2, skype/msn sur le 4, les pdf sur le 6, gimp sur le 7, etc. -> d'ou les noms
 -- donnés aux tags, cf début de ce fichier.
@@ -894,17 +892,11 @@ client.add_signal("manage", function (c, startup)
         end
     end)
 
-    -- Set the windows at the slave,
-    -- i.e. put it at the end of others instead of setting it master.
-    if not startup then
-        awful.client.setslave(c)
-
         -- Put windows in a smart way, only if they does not set an initial position.
         if not c.size_hints.user_position and not c.size_hints.program_position then
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
         end
-    end
 end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
