@@ -652,10 +652,6 @@ globalkeys = awful.util.table.join(
 -- transset permet de modifier la transparence d'une fenêtre
     awful.key({ modkey,           }, "!", function () awful.util.spawn("transset-df -a --inc 0.1")  end),
     awful.key({ modkey, "Shift"   }, "!", function () awful.util.spawn("transset-df -a --dec 0.1") end),
--- permet d'afficher rapidement des infos
-    awful.key({ modkey,           }, "t", function () todo_popup() end),
-    awful.key({ modkey,           }, "y", function () birthdays_popup() end),
-    awful.key({ modkey, "Shift"   }, "t", function () mpd_popup() end),
 -- Prompt normal (lancer une commande)
     awful.key({ modkey },            "Return",     function () mypromptbox[mouse.screen]:run() end),
 -- Prompt lua
@@ -694,6 +690,20 @@ globalkeys = awful.util.table.join(
                     return pages[ncomp], cur_pos
                   end)
               end),
+              awful.key({ modkey, "Shift"   }, "n",
+                      function ()
+                          local allclients = client.get(mouse.screen)
+
+                          for _,c in ipairs(allclients) do
+                              if c.minimized and c:tags()[mouse.screen] ==
+              awful.tag.selected(mouse.screen) then
+                                  c.minimized = false
+                                  client.focus = c
+                                  c:raise()
+                                  return
+                              end
+                          end
+                      end),
 -- une calculatrice
     awful.key({ modkey }, "F6", function ()
           awful.prompt.run({  
@@ -747,11 +757,13 @@ clientkeys = awful.util.table.join(
     end),
     -- fin de l'ajout
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey,           }, "c", function (c) c.minimized = true end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Shift" }, "m", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
+    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey, "Shift"   }, "o",      function (c) c.sticky = not c.sticky    end),
     awful.key({ modkey,           }, "m",
         function (c)
@@ -831,16 +843,8 @@ awful.rules.rules = {
     --{ rule = { class = "MPlayer" },
     --  properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Uzbl-tabbed" },
-      properties = { tag = tags[1][8] } },
     { rule = { class = "Firefox" },
       properties = { tag = tags[1][2] } },
-    { rule = { class = "Minefield" },
-    properties = { tag = tags[1][2] } },
-    { rule = { class = "Thunderbird" },
-      properties = { tag = tags[1][3] } },
-    { rule = { class = "Pino" },
-      properties = { tag = tags[1][4] } },
     { rule = { class = "Hotot" },
       properties = { tag = tags[1][4] } },
     { rule = { class = "Pidgin" },
