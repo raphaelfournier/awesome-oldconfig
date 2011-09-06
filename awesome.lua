@@ -71,9 +71,9 @@ layout = { layouts[1], --1
            layouts[2], --2 
            layouts[1], --3 
            layouts[1], --4 
-           layouts[6], --5 
-           layouts[2], --6 
-           layouts[5], --7 
+           layouts[5], --5 
+           layouts[12], --6 
+           layouts[11], --7 
            layouts[1]}--8
 }
 
@@ -255,8 +255,8 @@ musicwidget.mpd_config = "/home/raph/.mpd/mpd.conf"
 musicwidget.jamendo_format = awesompd.FORMAT_MP3
 -- If true, song notifications for Jamendo tracks will also contain
 -- album cover image.
-instance.show_jamendo_album_covers = true
-instance.album_cover_size = 150
+musicwidget.show_jamendo_album_covers = true
+musicwidget.album_cover_size = 150
 -- Specify decorators on the left and the right side of the
 -- widget. Or just leave empty strings if you decorate the widget
 -- from outside.
@@ -449,8 +449,14 @@ mytaglist.buttons = awful.util.table.join(
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
-                                              if not c:isvisible() then
-                                                  awful.tag.viewonly(c:tags()[1])
+                                              if c == client.focus then
+                                                  c.minimized = true
+                                              else
+                                                  if not c:isvisible() then
+                                                      awful.tag.viewonly(c:tags()[1])
+                                                  end
+--                                              if not c:isvisible() then
+--                                                  awful.tag.viewonly(c:tags()[1])
                                               end
                                               client.focus = c
                                               c:raise()
@@ -469,11 +475,11 @@ mytasklist.buttons = awful.util.table.join(
                                               end
                                           end),
                      awful.button({ }, 3, function ()
-                                              if instance then
-                                                  instance:hide()
-                                                  instance = nil
+                                              if menuinstance then
+                                                  menuinstance:hide()
+                                                  menuinstance = nil
                                               else
-                                                  instance = awful.menu.clients({ width=250 })
+                                                  menuinstance = awful.menu.clients({ width=250 })
                                               end
                                           end),
                      awful.button({ }, 4, function ()
@@ -552,7 +558,15 @@ end
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 5, awful.tag.viewprev),
+    awful.button({ modkey, }, 3, function ()
+                                              if menuinstance then
+                                                  menuinstance:hide()
+                                                  menuinstance = nil
+                                              else
+                                                  menuinstance = awful.menu.clients({ width=250 })
+                                              end
+                                          end)
 ))
 -- }}}
 val=nil
@@ -690,7 +704,7 @@ globalkeys = awful.util.table.join(
                     return pages[ncomp], cur_pos
                   end)
               end),
-              awful.key({ modkey, "Shift"   }, "n",
+              awful.key({ altkey, "Shift"   }, "n",
                       function ()
                           local allclients = client.get(mouse.screen)
 
@@ -757,7 +771,7 @@ clientkeys = awful.util.table.join(
     end),
     -- fin de l'ajout
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey,           }, "c", function (c) c.minimized = true end),
+    awful.key({ altkey,           }, "n", function (c) c.minimized = true end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Shift" }, "m", function (c) c:swap(awful.client.getmaster()) end),
@@ -815,7 +829,15 @@ end
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize)
+    awful.button({ modkey }, 3, awful.mouse.client.resize),
+    awful.button({ modkey }, 3, function ()
+                                              if menuinstance then
+                                                  menuinstance:hide()
+                                                  menuinstance = nil
+                                              else
+                                                  menuinstance = awful.menu.clients({ width=250 })
+                                              end
+                                          end)
 --    awful.button({ modkey }, 4, function () awful.util.spawn("transset-df -a --inc 0.1")  end),
 --    awful.button({ modkey }, 5, function () awful.util.spawn("transset-df -a --dec 0.1")  end)
     )
