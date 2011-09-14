@@ -2,6 +2,8 @@
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
+-- Mirror layout
+require("mirror")
 -- Theme handling library
 require("beautiful")
 -- Notification library
@@ -37,18 +39,6 @@ altkey = "Mod1"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
---    awful.layout.suit.tile,                  --1
---    awful.layout.suit.tile.left,             --2
---    awful.layout.suit.tile.bottom,           --3
---    awful.layout.suit.tile.top,              --4
---    awful.layout.suit.fair,                  --5
---    awful.layout.suit.fair.horizontal,       --6 
---    awful.layout.suit.spiral,                --7
---    awful.layout.suit.spiral.dwindle,        --8
---    awful.layout.suit.max,                   --9
---    awful.layout.suit.max.fullscreen,        --10
---    awful.layout.suit.magnifier,             --11
---    awful.layout.suit.floating               --12
     awful.layout.suit.tile,--1
     awful.layout.suit.tile.bottom,         --2
     awful.layout.suit.tile.left,         --3
@@ -57,6 +47,7 @@ layouts =
     awful.layout.suit.fair.horizontal,         --7
     awful.layout.suit.spiral,                 --8
     awful.layout.suit.spiral.dwindle,         --9
+    awful.layout.suit.mirror,         --9
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,             --10
     awful.layout.suit.floating,         --5
@@ -67,15 +58,14 @@ layouts =
 -- {{{ Tags
 tags = {
 names={"1","2","3","4","5","6","7","8"},
-layout = { layouts[1], --1 
-           layouts[2], --2 
-           layouts[1], --3 
-           layouts[1], --4 
-           layouts[5], --5 
-           layouts[12], --6 
-           layouts[3], --7 
---           layouts[11], --7 
-           layouts[1]}--8
+layout = { layouts[1], 
+           layouts[2], 
+           layouts[1], 
+           layouts[1], 
+           layouts[5], 
+           layouts[12], 
+           layouts[3], 
+           layouts[9]}
 }
 
 for s = 1, screen.count() do
