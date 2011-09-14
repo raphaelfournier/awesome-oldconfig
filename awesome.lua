@@ -73,7 +73,8 @@ layout = { layouts[1], --1
            layouts[1], --4 
            layouts[5], --5 
            layouts[12], --6 
-           layouts[11], --7 
+           layouts[3], --7 
+--           layouts[11], --7 
            layouts[1]}--8
 }
 
@@ -82,6 +83,7 @@ for s = 1, screen.count() do
   awful.tag.setproperty(tags[s][2], "mwfact", 0.72)
   awful.tag.setproperty(tags[s][3], "mwfact", 0.62)
   awful.tag.setproperty(tags[s][4], "mwfact", 0.62)
+  awful.tag.setproperty(tags[s][7], "mwfact", 0.72)
 end
 
 -- {{{ Menu
@@ -558,15 +560,15 @@ end
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev),
-    awful.button({ modkey, }, 3, function ()
-                                              if menuinstance then
-                                                  menuinstance:hide()
-                                                  menuinstance = nil
-                                              else
-                                                  menuinstance = awful.menu.clients({ width=250 })
-                                              end
-                                          end)
+    awful.button({ }, 5, awful.tag.viewprev)
+--    awful.button({ modkey, }, 3, function ()
+--                                              if menuinstance then
+--                                                  menuinstance:hide()
+--                                                  menuinstance = nil
+--                                              else
+--                                                  menuinstance = awful.menu.clients({ width=250 })
+--                                              end
+--                                          end)
 ))
 -- }}}
 val=nil
@@ -596,8 +598,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
--- ||avec le toggle(true) ci-dessous, on permet la navigation avec le clavier dans le menu 
-    awful.key({ modkey,           }, "z", function () mymainmenu:toggle()        end),
+--    awful.key({ modkey,           }, "z", function () mymainmenu:toggle()        end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -829,15 +830,7 @@ end
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize),
-    awful.button({ modkey }, 3, function ()
-                                              if menuinstance then
-                                                  menuinstance:hide()
-                                                  menuinstance = nil
-                                              else
-                                                  menuinstance = awful.menu.clients({ width=250 })
-                                              end
-                                          end)
+    awful.button({ modkey }, 3, awful.mouse.client.resize)
 --    awful.button({ modkey }, 4, function () awful.util.spawn("transset-df -a --inc 0.1")  end),
 --    awful.button({ modkey }, 5, function () awful.util.spawn("transset-df -a --dec 0.1")  end)
     )
@@ -882,7 +875,7 @@ awful.rules.rules = {
     { rule = { class = "Evince" },
       properties = { tag = tags[1][6] } },
     { rule = { class = "Gimp" },
-      properties = { tag = tags[1][7], floating = true } },
+      properties = { tag = tags[1][7], floating = false } },
 }
 -- }}}
 
