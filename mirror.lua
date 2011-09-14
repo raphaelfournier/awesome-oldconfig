@@ -30,7 +30,7 @@
 local ipairs = ipairs
 local math = math
 
-module("awful.layout.suit.mirrorv")
+module("awful.layout.suit.mirror")
 
 local function mirror(p)
   if #p.clients > 0 then
