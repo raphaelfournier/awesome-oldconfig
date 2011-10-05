@@ -47,11 +47,11 @@ layouts =
     awful.layout.suit.fair.horizontal,         --7
     awful.layout.suit.spiral,                 --8
     awful.layout.suit.spiral.dwindle,         --9
+--    awful.layout.suit.mirror,         --9
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,             --10
     awful.layout.suit.floating,         --5
     awful.layout.suit.max,         --11
-    awful.layout.suit.mirror,         --9
 }
 -- }}}
 
@@ -60,12 +60,12 @@ tags = {
 names={"1","2","3","4","5","6","7","8"},
 layout = { layouts[1], 
            layouts[2], 
-           layouts[1], 
+           layouts[12], 
            layouts[1], 
            layouts[5], 
            layouts[12], 
            layouts[3], 
-           layouts[9]}
+           layouts[5]}
 }
 
 for s = 1, screen.count() do
@@ -258,8 +258,8 @@ musicwidget.rdecorator = " "
 musicwidget.servers = {
    { server = "localhost",
         port = 6600 },
---     { server = "192.168.0.72",
---          port = 6600 } 
+     { server = "192.168.1.20",
+          port = 6600 } 
 }
 -- Set the buttons of the widget
 musicwidget:register_buttons({ { "", awesompd.MOUSE_MIDDLE, musicwidget:command_toggle() },
