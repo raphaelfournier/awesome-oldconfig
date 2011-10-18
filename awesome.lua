@@ -628,6 +628,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "a", revelation.revelation),
 --    awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox-beta-bin")       end),
     awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
+    awful.key({ modkey,           }, "c", function () awful.util.spawn("thunderbird")       end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("uzbl-tabbed")       end),
 --    awful.key({ modkey,           }, "c", function () awful.util.spawn("thunderbird")  end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("pcmanfm")       end),
@@ -864,6 +865,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][6] } },
     { rule = { class = "Evince" },
       properties = { tag = tags[1][6] } },
+    { rule = { class = "Thunderbird" },
+      properties = { tag = tags[1][5] } },
     { rule = { class = "Gimp" },
       properties = { tag = tags[1][7], floating = false } },
 }
