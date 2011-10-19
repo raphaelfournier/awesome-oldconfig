@@ -39,19 +39,19 @@ altkey = "Mod1"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
-    awful.layout.suit.tile,--1
-    awful.layout.suit.tile.bottom,         --2
-    awful.layout.suit.tile.left,         --3
-    awful.layout.suit.tile.top,         --4
-    awful.layout.suit.fair,            --6
-    awful.layout.suit.fair.horizontal,         --7
-    awful.layout.suit.spiral,                 --8
-    awful.layout.suit.spiral.dwindle,         --9
---    awful.layout.suit.mirror,         --9
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+--    awful.layout.suit.mirror,
     awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,             --10
-    awful.layout.suit.floating,         --5
-    awful.layout.suit.max,         --11
+    awful.layout.suit.magnifier,
+    awful.layout.suit.floating,
+    awful.layout.suit.max,
 }
 -- }}}
 
@@ -60,7 +60,7 @@ tags = {
 names={"1","2","3","4","5","6","7","8"},
 layout = { layouts[1], 
            layouts[2], 
-           layouts[12], 
+           layouts[1], 
            layouts[1], 
            layouts[5], 
            layouts[12], 
@@ -71,7 +71,7 @@ layout = { layouts[1],
 for s = 1, screen.count() do
   tags[s] = awful.tag(tags.names, s, tags.layout)
   awful.tag.setproperty(tags[s][2], "mwfact", 0.72)
-  awful.tag.setproperty(tags[s][3], "mwfact", 0.62)
+  awful.tag.setproperty(tags[s][3], "mwfact", 0.54)
   awful.tag.setproperty(tags[s][4], "mwfact", 0.62)
   awful.tag.setproperty(tags[s][7], "mwfact", 0.72)
 end
