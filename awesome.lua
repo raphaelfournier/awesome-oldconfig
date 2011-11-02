@@ -11,32 +11,21 @@ require("naughty")
 require("revelation")
 --require("wicked")
 require("vicious")
-require("vicious.contrib")
+--require("vicious.contrib")
 
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
 local home   = os.getenv("HOME")
---beautiful.init(home .. "/.config/awesome/themes/zenburn/theme.lua")
 beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
 
--- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
---terminal = "urxvt"
 --terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
 os.setlocale( os.getenv( 'LANG' ), 'time' )
 local exec = awful.util.spawn
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 altkey = "Mod1"
 
--- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
     awful.layout.suit.tile,
@@ -53,7 +42,6 @@ layouts =
     awful.layout.suit.floating,
     awful.layout.suit.max,
 }
--- }}}
 
 -- {{{ Tags
 tags = {
@@ -153,19 +141,21 @@ batwidget2 = widget({ type = "textbox" })
 vicious.register(batwidget2, vicious.widgets.bat, "$1$2%", 67, "BAT1")
 --
 --Pulse Audio widget
-vol= widget({ type = "textbox" })
-vicious.register(vol, vicious.contrib.pulse, "$1%", 2, "alsa_output.pci-0000_00_1b.0.analog-stereo")
-vol:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () awful.util.spawn("pavucontrol") end),
-  awful.button({ }, 4, function () vicious.contrib.pulse.add(5,"alsa_output.pci-0000_00_1b.0.analog-stereo") end),
-  awful.button({ }, 5, function () vicious.contrib.pulse.add(-5,"alsa_output.pci-0000_00_1b.0.analog-stereo") end)
-))
+--vol= widget({ type = "textbox" })
+--vicious.register(vol, vicious.contrib.pulse, "$1%", 2, "alsa_output.pci-0000_00_1b.0.analog-stereo")
+--vol:buttons(awful.util.table.join(
+--  awful.button({ }, 1, function () exec("urxvtc -e alsamixer") end),
+--  awful.button({ }, 2, function () awful.util.spawn("amixer -q sset Master toggle") end),
+--  awful.button({ }, 4, function () vicious.contrib.pulse.add(5,"alsa_output.pci-0000_00_1b.0.analog-stereo") end),
+--  awful.button({ }, 5, function () vicious.contrib.pulse.add(-5,"alsa_output.pci-0000_00_1b.0.analog-stereo") end)
+--))
+--
 
 volwidget = widget({ type = "textbox" })
 vicious.register(volwidget, vicious.widgets.volume, "$1%",2,"PCM")
 volwidget:buttons(
  awful.util.table.join(
- awful.button({ }, 1, function () exec("aumix") end),
+ awful.button({ }, 1, function () exec("urxvtc -e alsamixer") end),
  awful.button({ }, 2, function () exec("amixer -q sset PCM toggle") end),
  awful.button({ }, 4, function () exec("amixer -q sset PCM 2dB+") end),
  awful.button({ }, 5, function () exec("amixer -q sset PCM 2dB-") end)
@@ -174,7 +164,7 @@ volwidget:buttons(
 generalvolwidget = widget({ type = "textbox" })
 vicious.register(generalvolwidget, vicious.widgets.volume, "$1%",2,"Master")
 generalvolwidget:buttons(awful.util.table.join(
- awful.button({ }, 1, function () exec("aumix") end),
+ awful.button({ }, 1, function () exec("urxvtc -e alsamixer") end),
  awful.button({ }, 2, function () exec("amixer -q sset Master toggle") end),
  awful.button({ }, 4, function () exec("amixer -q sset Master 2dB+") end),
  awful.button({ }, 5, function () exec("amixer -q sset Master 2dB-") end)
@@ -201,7 +191,7 @@ function pomodoro:settime(t)
   else
     t = os.date("%M:%S", t)
   end
-  self.widget.text = string.format("<b>%s</b>", t)
+  self.widget.text = string.format('<span color="' .. beautiful.fg_urgent .. '"><b>%s</b></span>', t)
 end
 
 function pomodoro:notify(title, text, duration, working)
@@ -214,7 +204,7 @@ function pomodoro:notify(title, text, duration, working)
     timeout = 10, hover_timeout = 1,
     icon = ico,
     icon_size = 150,
-    width = 500, position = "top_right", screen = mouse.screen
+    width = 700, position = "bottom_left", screen = mouse.screen
   }
 
   pomodoro.left = duration
@@ -317,7 +307,8 @@ musicwidget.output_size = 30 -- Set the size of widget in symbols
 musicwidget.update_interval = 4 -- Set the update interval in seconds
 musicwidget.notifications = false
 musicwidget.textcolor_play = beautiful.fg_urgent
-musicwidget.textcolor_pause = beautiful.fg_normal
+musicwidget.textcolor_pause = beautiful.fg_focus
+musicwidget.textcolor_stoppped = beautiful.fg_normal
 -- Set the folder where icons are located (change username to your login name)
 musicwidget.path_to_icons = "/home/raph/.config/awesome/awesompd/icons" 
 musicwidget.mpd_config = "/home/raph/.mpd/mpd.conf"
@@ -353,37 +344,16 @@ musicwidget:run() -- After all configuration is done, run the widget
 ----
 ---- {{{ Mail 
 mailwidget0 = widget({ type = "textbox" })
-vicious.register(mailwidget0, vicious.widgets.mdir, '<span color="' .. beautiful.border_focus .. '">RF</span> $1', 61, {home ..  "/Mail/Rfnet/INBOX"})
+--vicious.register(mailwidget0, vicious.widgets.mdir, '<span color="' .. beautiful.border_focus .. '">RF</span> $1', 61, {home ..  "/Mail/Rfnet/INBOX"})
 --mailwidget0:buttons(awful.util.table.join(
 --  awful.button({ }, 1, function () exec("urxvt -T Mutt -e mutt") end)
 --))
 
 mailwidget1 = widget({ type = "textbox" })
-vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="' .. beautiful.border_focus .. '">LB</span> $1', 61, {home ..  "/Mail/Lavabit/Inbox"})
+--vicious.register(mailwidget1, vicious.widgets.mdir, '<span color="' .. beautiful.border_focus .. '">LB</span> $1', 61, {home ..  "/Mail/Lavabit/Inbox"})
 
 mailwidget2 = widget({ type = "textbox" })
-vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful.fg_urgent .. '">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
---
---weatherwidget = widget({ type = "textbox" })
---vicious.register(weatherwidget, vicious.widgets.weather, '<span color="' .. beautiful.fg_focus ..'">${tempc}°C</span>', 307, "LFLC")
---weatherwidget:add_signal("mouse::enter", function() weather_popup() end)
---weatherwidget:add_signal("mouse::leave", function() weather_popdown() end)
---
---function weather_popup()
---        table = vicious.widgets.weather(nil,"LFPO")
---        toto=awful.util.pread("weather -i LFPO")
---        bla = naughty.notify({
---          text = toto,
---          timeout = 0, hover_timeout = 0.5,
---          width = 380, position = "top_right", screen = mouse.screen
---        })
---end
---
---function weather_popdown()
---  naughty.destroy(bla)
---  bla = nil
---end
---Create a weather widget
+--vicious.register(mailwidget2, vicious.widgets.mdir, '<span color="' .. beautiful.fg_urgent .. '">LIP6</span> $1', 61, {home ..  "/Mail/Lip6/INBOX"})
 
 weatherwidget = widget({ type = "textbox" })
 metarid = "LFPO"
@@ -604,16 +574,14 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil,
         datewidget,
         spacesep,batwidget,
-        spacesep,batwidget2,
-        spacesep,mailwidget0,
-        spacesep,mailwidget1,
-        spacesep,mailwidget2,
-        spacesep,
-        pomodoro.widget,
-        spacesep,
+--        spacesep,batwidget2,
+--        spacesep,mailwidget0,
+--        spacesep,mailwidget1,
+--        spacesep,mailwidget2,
+        spacesep, pomodoro.widget,
+--        spacesep,
         --barsep,
-        --spacesep,
-        generalvolwidget,spacesep,volwidget,
+        spacesep, generalvolwidget,spacesep,volwidget,
 --        spacesep,vol,
         --spacesep,
         --barsep,
@@ -718,6 +686,26 @@ globalkeys = awful.util.table.join(
 -- les lancer en ne saisissant que les premieres lettres
 --    awful.key({ modkey,           }, "<", function () awful.util.spawn("sh /home/raph/scripts/dmenu.sh")       end),
     awful.key({ modkey,           }, "<", function () awful.util.spawn("dmenu_run -i -b -f -p 'Run command:' -nb '" .. beautiful.border_focus .. "' -nf '#3F3F3F' -sb '#3F3F3F' -sf '" .. beautiful.fg_urgent .. "' -fn '-*-liberation mono-*-r-*-*-*-120-*-*-*-*-*-*'") end), 
+--    awful.key({ modkey, "Shift"   }, "q", 
+--              function () 
+--                song = awful.util.pread("mpc playlist | sed -e 's/^>/ /' | dmenu -i ") --  | grep -P -o '^ \d+'")
+--                naughty.notify({ text = song,
+--                                 timeout = 0,hover_timeout = 0.5,
+--                                 width = 380, position = "top_left", screen = mouse.screen
+--                               })
+--                awful.util.spawn("mpc play " .. song) 
+--              end), 
+    awful.key({ modkey,           }, "q", 
+              function () 
+                choice = awful.util.pread("echo -e 'foobar\nlogout\nsuspend\nshutdown\nreboot' | dmenu -i -b -f -nb '#000000' -nf '#999999' -sb '#000000' -sf '#31658C'  -fn '-*-liberation mono-*-r-*-*-*-120-*-*-*-*-*-*'")
+--                choice = awful.util.pread("echo -e 'foobar\nlogout\nsuspend\nshutdown\nreboot' | dmenu -i -b -f -nb '" .. beautiful.bg_focus .. "' -nf '" .. beautiful.bg_urgent .. "' -sb '" .. beautiful.border_marked .. "'-sf '" .. beautiful.fg_urgent .. "' -fn '-*-liberation mono-*-r-*-*-*-120-*-*-*-*-*-*'")
+                if     choice == "logout\n"   then awesome.quit()
+                elseif choice == "shutdown\n" then awful.util.spawn("sudo halt")
+                elseif choice == "reboot\n"   then awful.util.spawn("sudo reboot")
+                elseif choice == "suspend\n"  then awful.util.spawn("sudo pm-suspend")
+                else   choice = ""
+                end
+              end), 
 
 -- || quelques commandes pour regler le volume
     awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset PCM 2%+") end),
@@ -736,7 +724,7 @@ globalkeys = awful.util.table.join(
                                                 coverart_show()
                                               end),
 --    awful.key({ modkey, "Shift"   }, "<", function () secwibox[mouse.screen].visible = not secwibox[mouse.screen].visible      end),
-    awful.key({ modkey, "Shift" }, "<", function () awful.util.spawn("dnetcfg -i -b -nb '" .. "#506070" .. "' -nf '" .. beautiful.fg_normal .. "' -sb '" .. beautiful.border_focus .. "' -sf '" .. beautiful.border_normal .. "'")      end),
+    awful.key({ modkey, "Shift" }, "<", function () awful.util.spawn("dnetcfg -i -b -nb '" .. beautiful.bg_urgent .. "' -nf '" .. beautiful.border_marked .. "' -sb '" .. beautiful.border_focus .. "' -sf '" .. beautiful.border_normal .. "'")      end),
 -- transset permet de modifier la transparence d'une fenêtre
     awful.key({ modkey,           }, "!", function () awful.util.spawn("transset-df -a --inc 0.1")  end),
     awful.key({ modkey, "Shift"   }, "!", function () awful.util.spawn("transset-df -a --dec 0.1") end),
