@@ -1,0 +1,23 @@
+-- Second wibox widgets
+--wifiwidget = widget({ type = "textbox" })
+--vicious.register(wifiwidget, vicious.widgets.wifi, "${ssid} ${sign}", 67, "wlan0")
+--
+--function birthdays_popup()
+--         local birthdays = awful.util.pread("/usr/bin/birthday -W45")
+--         popupbirthdays = naughty.notify({
+--           text = birthdays,
+--           timeout = 10, hover_timeout = 1,
+--           width = 400, position = "bottom_right", screen = mouse.screen
+--         })
+--end
+--function remove_birthdays()
+--   naughty.destroy(popupbirthdays)
+--   popuptodo = nil
+--end
+--
+--birthdayswidget = widget({ type = "textbox" })
+--birthdayswidget.text=awful.util.pread("/usr/bin/birthday -W45 | head -n1 ")
+----string.format('<span color="#8cd0d3">birthdays</span>')
+--birthdayswidget:add_signal("mouse::enter", function() birthdays_popup() end)
+--birthdayswidget:add_signal("mouse::leave", function() remove_birthdays() end)
+
