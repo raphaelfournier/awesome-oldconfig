@@ -4,8 +4,8 @@ require("awful.rules")
 require("beautiful")
 beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
 --require("naughty")
-require("naughtydefaults")
-require("revelation")
+require("conf.naughtydefaults")
+require("conf.revelation")
 require("vicious")
 --require("vicious.contrib")
 -- Mirror layout
@@ -62,7 +62,7 @@ for s = 1, screen.count() do
 end
 
 -- {{{ Menu
-require("menu")
+require("conf.menu")
 -- }}}
 
 
@@ -72,13 +72,13 @@ barsep = widget({ type = "textbox"})
 spacesep.text = " "
 barsep.text = "|"
 --
-require("bat-vol-date")
-require("pomodoro")
-require("taskcoach")
+require("conf.bat-vol-date")
+require("conf.pomodoro")
+require("conf.taskcoach")
 
 require("awesompd.awesompd")
-require("awesompdconf")
-require("weather")
+require("conf.awesompdconf")
+require("conf.weather")
 --require("secondwibox")
 
 -- Create a systray
@@ -192,7 +192,7 @@ for s = 1, screen.count() do
 --        spacesep,
         --barsep,
         spacesep, generalvolwidget,spacesep,volwidget,
-        spacesep, tb_todo,
+--        spacesep, tb_todo,
 --        spacesep,vol,
         --spacesep,
         --barsep,
@@ -208,11 +208,11 @@ end
 -- }}}
 
 -- {{{ Mouse and Key bindings
-require("keybindings")
+require("conf.keybindings")
 -- }}}
 
 -- {{{ Client keys
-require("clientkeys")
+require("conf.clientkeys")
 -- }}}
 
 -- Set keys
@@ -220,9 +220,9 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
-require("rules")
+require("conf.rules")
 -- }}}
 
 -- {{{ Signals
-require("signals")
+require("conf.signals")
 -- }}}

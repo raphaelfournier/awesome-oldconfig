@@ -230,6 +230,10 @@ globalkeys = awful.util.table.join(
                 answer = words[1].." ounce ".. localequiv..words[1]*28.4130625 .." ml"
               elseif words[sep+1] == "ounce" then
                 answer = words[1].." ml ".. localequiv..words[1]/28.4130625 .." ounces"
+              elseif words[sep+1] == "eur" then
+                answer = words[1].." usd ".. localequiv..words[1]/1.35870 .." euros"
+              elseif words[sep+1] == "usd" then
+                answer = words[1].." eur ".. localequiv..words[1]*1.35870 .." US dollars"
               elseif words[sep+1] == "cm" then
                 cm = words[1]*30.48+words[3]*2.54
                 answer = words[1].." ft ".. words[3].." inches ".. localequiv..cm .." centimètres"
