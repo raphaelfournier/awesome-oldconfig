@@ -98,3 +98,4 @@ clientbuttons = awful.util.table.join(
 --    awful.button({ modkey }, 4, function () awful.util.spawn("transset-df -a --inc 0.1")  end),
 --    awful.button({ modkey }, 5, function () awful.util.spawn("transset-df -a --dec 0.1")  end)
     )
+root.keys(globalkeys)
