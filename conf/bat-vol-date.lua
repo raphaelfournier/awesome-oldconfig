@@ -7,7 +7,7 @@ vicious.register(batwidget2, vicious.widgets.bat, "$1$2%", 67, "BAT1")
 --vol= widget({ type = "textbox" })
 --vicious.register(vol, vicious.contrib.pulse, "$1%", 2, "alsa_output.pci-0000_00_1b.0.analog-stereo")
 --vol:buttons(awful.util.table.join(
---  awful.button({ }, 1, function () exec("urxvtc -e alsamixer") end),
+--  awful.button({ }, 1, function () awful.util.spawn("urxvtc -e alsamixer") end),
 --  awful.button({ }, 2, function () awful.util.spawn("amixer -q sset Master toggle") end),
 --  awful.button({ }, 4, function () vicious.contrib.pulse.add(5,"alsa_output.pci-0000_00_1b.0.analog-stereo") end),
 --  awful.button({ }, 5, function () vicious.contrib.pulse.add(-5,"alsa_output.pci-0000_00_1b.0.analog-stereo") end)
@@ -18,19 +18,19 @@ volwidget = widget({ type = "textbox" })
 vicious.register(volwidget, vicious.widgets.volume, "$1%",2,"PCM")
 volwidget:buttons(
  awful.util.table.join(
- awful.button({ }, 1, function () exec("urxvtc -e alsamixer") end),
- awful.button({ }, 2, function () exec("amixer -q sset PCM toggle") end),
- awful.button({ }, 4, function () exec("amixer -q sset PCM 2dB+") end),
- awful.button({ }, 5, function () exec("amixer -q sset PCM 2dB-") end)
+ awful.button({ }, 1, function () awful.util.spawn("urxvtc -e alsamixer") end),
+ awful.button({ }, 2, function () awful.util.spawn("amixer -q sset PCM toggle") end),
+ awful.button({ }, 4, function () awful.util.spawn("amixer -q sset PCM 2%+") end),
+ awful.button({ }, 5, function () awful.util.spawn("amixer -q sset PCM 2%-") end)
  )
 )
 generalvolwidget = widget({ type = "textbox" })
 vicious.register(generalvolwidget, vicious.widgets.volume, "$1%",2,"Master")
 generalvolwidget:buttons(awful.util.table.join(
- awful.button({ }, 1, function () exec("urxvtc -e alsamixer") end),
- awful.button({ }, 2, function () exec("amixer -q sset Master toggle") end),
- awful.button({ }, 4, function () exec("amixer -q sset Master 2dB+") end),
- awful.button({ }, 5, function () exec("amixer -q sset Master 2dB-") end)
+ awful.button({ }, 1, function () awful.util.spawn("urxvtc -e alsamixer") end),
+ awful.button({ }, 2, function () awful.util.spawn("amixer -q sset Master toggle") end),
+ awful.button({ }, 4, function () awful.util.spawn("amixer -q sset Master 2%+") end),
+ awful.button({ }, 5, function () awful.util.spawn("amixer -q sset Master 2%-") end)
  )
 )
 

@@ -89,6 +89,10 @@ for s = 1, screen.count() do
 --    }
 --    secwibox[s].visible = false
     -- Add widgets to the wibox - order matters
+--testw = widget({ type = "textbox"})
+--testw.text = s .. "/" .. screen.count()
+--        spacesep,testw,
+
     mywibox[s].widgets = {
         {
             mylauncher,

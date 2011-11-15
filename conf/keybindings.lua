@@ -222,7 +222,7 @@ globalkeys = awful.util.table.join(
                 answer = words[1].." lb ".. localequiv..words[1]*0.45359237 .." kg"
               elseif words[sep+1] == "lb" then
                 answer = words[1].." kg equals to ".. words[1]/0.45359237 .." lb"
-              elseif words[sep+1] == "sqm" then
+              elseif words[sep+1] == "m2" then
                 answer = words[1].." sq ft ".. localequiv..words[1]*0.09290304 .." mètres carrés"
               elseif words[sep+1] == "sqft" then
                 answer = words[1].." mètres carrés equals to ".. words[1]/0.09290304 .." sq ft"
