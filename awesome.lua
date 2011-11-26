@@ -16,7 +16,7 @@ require("conf.menu")
 
 require("conf.bat-vol-date")
 require("conf.pomodoro")
-require("conf.taskcoach")
+--require("conf.taskcoach")
 require("awesompd.awesompd")
 require("conf.awesompdconf")
 require("conf.weather")

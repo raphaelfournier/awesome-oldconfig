@@ -30,6 +30,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][6] } },
     { rule = { class = "Zathura" },
       properties = { tag = tags[1][6] } },
+    { rule = { class = "dclock" },
+      properties = { screen = screen.count() } },
     { rule = { class = "Conky" },
       properties = { screen = screen.count() } },
     { rule = { class = "Evince" },
