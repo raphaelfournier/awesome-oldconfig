@@ -158,6 +158,35 @@ globalkeys = awful.util.table.join(
                     return pages[ncomp], cur_pos
                   end)
               end),
+--    awful.key({ modkey }, "F5", function () -- passwd
+--          awful.prompt.run({ prompt = "Password : " }, mypromptbox[mouse.screen].widget,
+--                  function (password) awful.util.spawn("urxvt -e echo " .. password, false) end,
+--                  function (password) naughty.notify({ text = password, width = 400}) end
+--                  function(cmd, cur_pos, ncomp)
+--                    local passwords = {}
+--                    local m = 'cat /home/raph/passwd.file | cut -d: -f1'
+--                    for word in m:gmatch("%w+") 
+--                    do 
+--                      words[index]=word
+--                      if word == "en" then sep = index end
+--                      index= index+1
+--                    end
+--                    local c, err = io.popen(m)
+--                    if c then while true do
+--                      local manpage = c:read("*line")
+--                      if not manpage then break end
+--                      if manpage:find("^" .. cmd:sub(1, cur_pos)) then
+--                          table.insert(passwords, manpage)
+--                      end
+--                    end
+--                    c:close()
+--                    else io.stderr:write(err) end
+--                    if #cmd == 0 then return cmd, cur_pos end
+--                    if #passwords == 0 then return end
+--                    while ncomp > #passwords do ncomp = ncomp - #passwords end
+--                    return passwords[ncomp], cur_pos
+--                  end)
+--              end),
               awful.key({ altkey, "Shift"   }, "n",
                       function ()
                           local allclients = client.get(mouse.screen)
