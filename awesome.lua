@@ -23,6 +23,7 @@ require("conf.weather")
 --require("secondwibox")
 require("conf.systray-wibox")
 
+require("conf.functions-bindings")
 require("conf.keybindings")
 require("conf.clientkeys")
 require("conf.rules")

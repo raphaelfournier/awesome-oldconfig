@@ -23,4 +23,4 @@ for s = 1,screen.count() do
 end
 
 -- usefull for debugging
-naughty.notify{text="Awesome crashed during startup on " .. os.date("%d%/%m/%Y %T:\n\n") .. err .. "\n", timeout = 0}
+naughty.notify{text="Awesome crashed during startup on " .. os.date("%d%/%m/%Y %T:\n\n") .. err .. "\n", timeout = 0, height = 300, width = 600}
