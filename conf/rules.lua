@@ -38,6 +38,10 @@ awful.rules.rules = {
       properties = { tag = tags[1][6] } },
     { rule = { class = "Thunderbird" },
       properties = { tag = tags[1][5] } },
+    { rule = { class = "Inkscape" },
+      properties = { tag = tags[1][7] } },
+    { rule = { class = "Scribus" },
+      properties = { tag = tags[1][7] } },
     { rule = { class = "Gimp" },
       properties = { tag = tags[1][7], floating = false } },
 }

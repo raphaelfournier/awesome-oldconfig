@@ -76,7 +76,7 @@ function pwd_prompt()
   linepwd = awful.util.pread("cat "..pwdfile.." | grep -i "..service):gsub("\n", "")
   login = awful.util.pread("echo " .. linepwd .. " | cut -d: -f2"):gsub("\n", "")
   pwd = awful.util.pread("echo " .. linepwd .. " | cut -d: -f3"):gsub("\n", "")
-  if login ~= "\n" then
+  if login ~= "\n" and login ~= "" then
     naughty.notify({ text = "service : "..service.."login : "..login, width = 400})
     command = "echo '" .. pwd .. "' | xsel -i"
     awful.util.spawn_with_shell(command,false)
