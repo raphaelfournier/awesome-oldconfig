@@ -42,6 +42,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][7] } },
     { rule = { class = "Scribus" },
       properties = { tag = tags[1][7] } },
+    { rule = { class = "libreoffice" },
+      properties = { floating = false } },
     { rule = { class = "Gimp" },
       properties = { tag = tags[1][7], floating = false } },
 }
