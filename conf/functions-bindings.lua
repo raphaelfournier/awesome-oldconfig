@@ -30,13 +30,18 @@ function dmenu_command()
   awful.util.spawn("dmenu_run -f -p 'Run command:' " .. dmenuopts) 
 end
 
+function dmenu_netcfg() 
+  netcfgprofile = awful.util.pread("find /etc/network.d/ -type f | grep -v examples | cut -d \"/\" -f 4 | dmenu " .. dmenuopts)
+  awful.util.spawn(netcfgprofile ~= "" and "sudo netcfg -r " .. netcfgprofile or nil) 
+end 
+
 function dmenu_mpd() 
   numsong = awful.util.pread("mpc playlist | nl -s ' ' | tr -s \" \" | dmenu " .. dmenuopts .. "| cut -d \" \" -f2")
   awful.util.spawn(numsong ~= "" and "mpc play " .. numsong or nil) 
 end 
 
 function dmenu_system() 
-  choice = awful.util.pread("echo -e 'foobar\nlogout\nsuspend\nhalt\nreboot' | dmenu -f " .. dmenuopts)
+  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot' | dmenu -f " .. dmenuopts)
   if     choice == "logout\n"   then awesome.quit()
   elseif choice == "halt\n"     then awful.util.spawn("sudo halt")
   elseif choice == "reboot\n"   then awful.util.spawn("sudo reboot")
@@ -72,7 +77,7 @@ end
 function pwd_prompt()
   pwdpath = "/home/raph/.pwd"
   pwdfile = awful.util.pread("cat "..pwdpath):gsub("\n", "")
-  service = awful.util.pread("cat "..pwdfile.." |cut -d: -f1 | dmenu " .. dmenuopts)
+  service = awful.util.pread("cat "..pwdfile.." | grep -v ^# | cut -d: -f1 | dmenu " .. dmenuopts)
   linepwd = awful.util.pread("cat "..pwdfile.." | grep -i "..service):gsub("\n", "")
   login = awful.util.pread("echo " .. linepwd .. " | cut -d: -f2"):gsub("\n", "")
   pwd = awful.util.pread("echo " .. linepwd .. " | cut -d: -f3"):gsub("\n", "")
