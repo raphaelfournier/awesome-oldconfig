@@ -15,6 +15,7 @@ require("conf.layouts")
 require("conf.menu")
 
 require("conf.bat-vol-date")
+require("conf.keyboardswitch")
 require("conf.pomodoro")
 --require("conf.taskcoach")
 require("awesompd.awesompd")
