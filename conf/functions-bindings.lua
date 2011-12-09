@@ -41,7 +41,7 @@ function dmenu_mpd()
 end 
 
 function dmenu_system() 
-  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot' | dmenu -f " .. dmenuopts)
+  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot' | dmenu -p 'System' -f " .. dmenuopts)
   if     choice == "logout\n"   then awesome.quit()
   elseif choice == "halt\n"     then awful.util.spawn("sudo halt")
   elseif choice == "reboot\n"   then awful.util.spawn("sudo reboot")
@@ -78,13 +78,13 @@ function pwd_prompt()
   pwdpath = "/home/raph/.pwd"
   pwdfile = awful.util.pread("cat "..pwdpath):gsub("\n", "")
   service = awful.util.pread("cat "..pwdfile.." | grep -v ^# | cut -d: -f1 | dmenu " .. dmenuopts)
-  linepwd = awful.util.pread("cat "..pwdfile.." | grep -i "..service):gsub("\n", "")
+  linepwd = awful.util.pread("cat "..pwdfile.." | grep -i -m1 "..service):gsub("\n", "")
   login = awful.util.pread("echo " .. linepwd .. " | cut -d: -f2"):gsub("\n", "")
   pwd = awful.util.pread("echo " .. linepwd .. " | cut -d: -f3"):gsub("\n", "")
   if login ~= "\n" and login ~= "" then
     naughty.notify({ text = "service : "..service.."login : "..login, width = 400})
-    command = "echo '" .. pwd .. "' | xsel -i"
-    awful.util.spawn_with_shell(command,false)
+    selectcommand = "echo '" .. pwd .. "' | xsel -i"
+    awful.util.spawn_with_shell(selectcommand,false)
   end
 end
 
