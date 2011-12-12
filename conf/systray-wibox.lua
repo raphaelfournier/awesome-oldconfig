@@ -109,7 +109,7 @@ for s = 1, screen.count() do
 --        spacesep,mailwidget1,
 --        spacesep,mailwidget2,
 --        spacesep, pomodoro.widget,
-        spacesep, kbdcfg.widget,
+--        spacesep, kbdcfg.widget,
 --        spacesep,
         --barsep,
         spacesep, generalvolwidget,spacesep,volwidget,
