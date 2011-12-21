@@ -181,5 +181,3 @@ function converter_prompt()
     end,
     nil, awful.util.getdir("cache") .. "/convert") 
 end
-
-

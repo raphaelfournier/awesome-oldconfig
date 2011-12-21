@@ -91,7 +91,6 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
 --testw = widget({ type = "textbox"})
 --testw.text = s .. "/" .. screen.count()
---        spacesep,testw,
 
     mywibox[s].widgets = {
         {
@@ -111,6 +110,7 @@ for s = 1, screen.count() do
 --        spacesep, pomodoro.widget,
 --        spacesep, kbdcfg.widget,
 --        spacesep,
+--        spacesep,testw,
         --barsep,
         spacesep, generalvolwidget,spacesep,volwidget,
 --        spacesep, tb_todo,

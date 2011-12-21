@@ -39,7 +39,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
---    awful.key({ modkey,           }, "z", function () mymainmenu:toggle()        end),
+    awful.key({ modkey,           }, "z", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -55,10 +55,10 @@ globalkeys = awful.util.table.join(
             end
         end),
 
+    awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey,           }, "x", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn(terminal,false) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/marie/screenshots/ 2>/dev/null'") end),
+    awful.key({                   }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/marie/screenshots/ 2>/dev/null'") end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -76,8 +76,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenu_system()                    end), 
     awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
-    awful.key({ modkey,           }, "c", function () awful.util.spawn("thunderbird")   end),
-    awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("uzbl-tabbed")   end),
+    awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("iron")          end),
+    awful.key({ modkey,           }, "c", function () awful.util.spawn("evolution")     end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("pcmanfm")       end),
 
     awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset PCM 2%+")       end),
@@ -101,6 +101,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F5",     function () pwd_prompt()                    end),
     awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
     awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
+    awful.key({ modkey }, "F9", function ()
+              awful.menu.menu_keys.down = { "Down", "Alt_L" }
+                      local cmenu = awful.menu.clients({width=230}, {
+                        keygrabber=true, coords={x=525, y=330} }) end),
     awful.key({ modkey }, "F8",     function () converter_prompt()              end)
 )
 
