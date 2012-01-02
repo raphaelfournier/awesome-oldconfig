@@ -1,10 +1,12 @@
 -- Create a laucher widget and a main menu
 mycomputermenu = {
+   { "suspend", "sudo pm-suspend" },
    { "reboot", "sudo reboot" },
    { "shutdown", "sudo halt" }
 }
 myappsmenu = {
    { "firefox", function() awful.util.spawn("firefox") end},
+   { "Firefox Marie", function() awful.util.spawn("firefox -P marie") end},
    { "thunderbird", function() awful.util.spawn("thunderbird") end},
    { "emesene", function() awful.util.spawn("emesene") end},
    { "pidgin", function() awful.util.spawn("pidgin") end},
@@ -52,6 +54,7 @@ myawesomemenu = {
 mymainmenu = awful.menu.new({ items = { 
                                         { "Applications", myappsmenu },
                                         { "Terminal", terminal },
+                                        { "Keyboard FR OSS", function() os.execute("setxkbmap fr oss") end},
                                         { "Awesome", myawesomemenu, beautiful.awesome_icon },
                                         { "Computer", mycomputermenu },
                                       }

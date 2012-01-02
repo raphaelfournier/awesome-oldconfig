@@ -175,7 +175,7 @@ function converter_prompt()
           answer = words[1] .. " cm equals to ".. ft .. " feet and "..inch.." inches"
         end
       else
-          answer = "problem with your input"
+          answer = "problem with your input. #words="..#words
       end
           naughty.notify({ text = answer, width = 400})
     end,

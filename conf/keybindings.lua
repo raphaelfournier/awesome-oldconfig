@@ -39,7 +39,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "z", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
+    awful.key({ modkey,           }, "s", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
