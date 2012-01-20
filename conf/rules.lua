@@ -24,8 +24,6 @@ awful.rules.rules = {
       properties = { tag = tags[1][4] } },
     { rule = { class = "Skype" },
       properties = { tag = tags[1][4] } },
-    { rule = { instance = "acroread" },
-      properties = { tag = tags[1][6] } },
     { rule = { class = "Acroread" },
       properties = { tag = tags[1][6] } },
     { rule = { class = "Epdfview" },
@@ -45,7 +43,7 @@ awful.rules.rules = {
     { rule = { class = "Scribus" },
       properties = { tag = tags[1][7] } },
     { rule = { class = "libreoffice" },
-      properties = { floating = false } },
+      properties = { tag = tags[1][6], floating = false } },
     { rule = { class = "Gimp" },
       properties = { tag = tags[1][7], floating = false } },
 }

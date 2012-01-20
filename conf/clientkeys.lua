@@ -35,14 +35,14 @@ clientkeys = awful.util.table.join(
     end),
     -- fin de l'ajout
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ altkey,           }, "n", function (c) c.minimized = true end),
+    awful.key({ altkey,           }, "n",      function (c) c.minimized = true               end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Shift" }, "m", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey,           }, "p",      function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey, "Shift"   }, "o",      function (c) c.sticky = not c.sticky    end),
+    awful.key({ modkey, "Shift"   }, "o",      function (c) c.sticky = not c.sticky          end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal

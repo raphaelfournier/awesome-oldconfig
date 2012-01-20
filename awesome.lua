@@ -11,7 +11,7 @@ require("vicious")
 --require("mirror")
 
 require("conf.variables")
-require("conf.layouts")
+require("conf.layouts") -- tags: names and layouts
 require("conf.menu")
 
 require("conf.bat-vol-date")
