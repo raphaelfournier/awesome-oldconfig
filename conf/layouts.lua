@@ -17,15 +17,16 @@ layouts =
 
 -- {{{ Tags
 tags = {
-names={"1","2","3","4","5","6","7","8"},
+names={"1","2","3","4","5","6","7","8","9"},
 layout = { layouts[1], 
            layouts[2], 
            layouts[1], 
            layouts[1], 
            layouts[5], 
            layouts[12], 
-           layouts[3], 
-           layouts[5]}
+           layouts[1], 
+           layouts[9], 
+           layouts[1]}
 }
 
 for s = 1, screen.count() do

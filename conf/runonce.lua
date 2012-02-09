@@ -36,7 +36,8 @@ end
 
 -- Usage Example
 --run_once("firefox")
-run_once("skype")
+--run_once("skype")
+--
 --screen.count()==2 and run_once("dclock")
 -- Use the second argument, if the programm you wanna start, 
 -- differs from the what you want to search.
