@@ -6,6 +6,8 @@ beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
 require("conf.naughtydefaults")
 require("conf.revelation")
 require("vicious")
+require("awful.remote")
+require("screenful.screenful")
 --require("vicious.contrib")
 -- Mirror layout
 --require("mirror")
