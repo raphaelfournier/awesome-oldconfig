@@ -76,7 +76,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenu_system()                    end), 
     awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
-    awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("iron")          end),
     awful.key({ modkey,           }, "c", function () awful.util.spawn("evolution")     end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("pcmanfm")       end),
 
@@ -89,6 +88,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn("mpc prev")                     end),
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
+    awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
     awful.key({ modkey,           }, "d", function () coverart()                                       end),
 -- transset permet de modifier la transparence d'une fenêtre

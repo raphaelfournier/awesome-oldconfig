@@ -118,6 +118,7 @@ testw.text = s .. "/" .. screen.count()
         --spacesep,
         --barsep,
         spacesep,weatherwidget,
+--        spacesep,weatherwidget,
 --        spacesep,barsep,
 --        spacesep,
 --        mpdwidget,
