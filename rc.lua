@@ -9,6 +9,7 @@ require("naughty")
 confdir = awful.util.getdir("config")
 --local rc, err = loadfile(confdir .. "/default.lua");
 local rc, err = loadfile(confdir .. "/awesome.lua");
+--local rc, err = loadfile(confdir .. "/awesome.lua.shifty");
 if rc then
   rc, err = pcall(rc);
   if rc then

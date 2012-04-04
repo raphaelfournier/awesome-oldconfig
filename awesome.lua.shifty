@@ -1,0 +1,40 @@
+require("awful")
+require("awful.autofocus")
+require("awful.rules")
+require("beautiful")
+require("shifty")
+beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
+require("conf.naughtydefaults")
+require("conf.revelation")
+require("vicious")
+--require("vicious.contrib")
+-- Mirror layout
+--require("mirror")
+
+require("conf.variables")
+require("conf.layouts-shifty") -- tags: names and layouts
+require("conf.menu")
+
+require("conf.bat-vol-date")
+require("conf.keyboardswitch")
+require("conf.pomodoro")
+--require("conf.taskcoach")
+require("awesompd.awesompd")
+require("conf.awesompdconf")
+require("conf.weather")
+--require("secondwibox")
+require("conf.systray-wibox")
+shifty.taglist = mytaglist
+require("conf.shifty")
+
+require("conf.functions-bindings")
+require("conf.keybindings-shifty")
+require("conf.clientkeys-shifty")
+
+root.keys(globalkeys)
+shifty.config.globalkeys = globalkeys
+shifty.config.clientkeys = clientkeys
+
+require("conf.rules-shifty")
+require("conf.signals-shifty")
+require("conf.runonce")
