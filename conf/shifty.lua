@@ -14,8 +14,6 @@ shifty.config.tags = {
         layout      = awful.layout.suit.tile.bottom,
         init      = true,
         mwfact      = 0.72,
-        exclusive   = true,
---        max_clients = 1,
         position    = 2,
         spawn       = browser,
     },
@@ -32,10 +30,12 @@ shifty.config.tags = {
         layout    = awful.layout.suit.tile,
         mwfact    = 0.62,
         position  = 4,
+--        spawn     = "hotot",
     },
     media = {
         layout    = awful.layout.suit.float,
         position  = 5,
+        spawn     = "urxvtc -e ncmpcpp",
     },
     pdf = {
         layout    = awful.layout.suit.max,
@@ -49,7 +49,8 @@ shifty.config.tags = {
     root = {
         layout   = awful.layout.suit.tile,
         position = 9,
-    }
+        spawn     = "urxvtc -e su root",
+    },
 }
 
 -- SHIFTY: application matching rules
@@ -60,6 +61,7 @@ shifty.config.apps = {
             "Navigator",
             "Vimperator",
             "Gran Paradiso",
+            "Firefox",
         },
         tag = "web",
     },
@@ -73,6 +75,14 @@ shifty.config.apps = {
     },
     {
         match = {
+            "Hotot",
+            "pidgin",
+            "skype",
+        },
+        tag = "im",
+    },
+    {
+        match = {
             "pcmanfm",
         },
         slave = true
@@ -83,16 +93,13 @@ shifty.config.apps = {
             "Abiword",
             "Gnumeric",
         },
-        tag = "office",
+        tag = "pdf",
     },
     {
         match = {
             "Mplayer.*",
-            "Mirage",
-            "gtkpod",
+            "sonata",
             "ncmpcpp",
-            "Ufraw",
-            "easytag",
         },
         tag = "media",
         nopopup = true,

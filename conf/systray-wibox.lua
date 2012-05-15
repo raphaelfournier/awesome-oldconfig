@@ -112,7 +112,7 @@ testw.text = s .. "/" .. screen.count()
 --        spacesep,
 --        spacesep,testw,
         --barsep,
-        spacesep, generalvolwidget,spacesep,volwidget,
+        spacesep,generalvolwidget,spacesep,volwidget,
 --        spacesep, tb_todo,
 --        spacesep,vol,
         --spacesep,
