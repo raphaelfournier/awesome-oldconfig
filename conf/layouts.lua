@@ -18,7 +18,9 @@ layouts =
 -- {{{ Tags
 tags = {
 --names={"1","2","3","4","5","6","7","8","9"},
+--names={"⌨","☞","✉","☻","♫","⚡","❁","☄","☃"},
 names={"term","web","mail","im","media","pdf","graph","root","dev"},
+--names={"α","β","γ","δ","ε","ζ","η","θ","ι","κ"},
 layout = { layouts[1], 
            layouts[12], 
            layouts[1], 
