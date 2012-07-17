@@ -9,7 +9,7 @@ require("conf.revelation")
 require("vicious")
 --require("vicious.contrib")
 -- Mirror layout
---require("mirror")
+require("conf.mirror")
 
 require("conf.variables")
 require("conf.layouts") -- tags: names and layouts
