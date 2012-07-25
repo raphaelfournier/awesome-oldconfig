@@ -41,13 +41,13 @@ function dmenu_mpd()
 end 
 
 function dmenu_system() 
-  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot\noff-lab\nin-lab' | dmenu -p 'System' -f " .. dmenuopts)
+  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot\nquitlab\nmorninglab' | dmenu -p 'System' -f " .. dmenuopts)
   if     choice == "logout\n"   then awesome.quit()
   elseif choice == "halt\n"     then awful.util.spawn("sudo halt")
   elseif choice == "reboot\n"   then awful.util.spawn("sudo reboot")
   elseif choice == "suspend\n"  then awful.util.spawn("sudo pm-suspend")
-  elseif choice == "off-lab\n"  then awful.util.spawn("xrandr --output VGA1 --off && sudo pm-suspend")
-  elseif choice == "in-lab\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-dell24.sh")
+  elseif choice == "quitlab\n"  then awful.util.spawn("xrandr --output VGA1 --off && sudo pm-suspend")
+  elseif choice == "morninglab\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-dell24.sh")
   else   choice = ""
   end
 end 
