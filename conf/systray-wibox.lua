@@ -107,7 +107,7 @@ testw.text = s .. "/" .. screen.count()
 --        spacesep,mailwidget0,
 --        spacesep,mailwidget1,
 --        spacesep,mailwidget2,
---        spacesep, pomodoro.widget,
+        spacesep, pomodoro.widget,
 --        spacesep, kbdcfg.widget,
 --        spacesep,
 --        spacesep,testw,
