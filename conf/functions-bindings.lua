@@ -36,7 +36,7 @@ function dmenu_netcfg()
 end 
 
 function dmenu_mpd() 
-  numsong = awful.util.pread("mpc playlist | nl -s ' ' | tr -s \" \" | dmenu " .. dmenuopts .. "| cut -d \" \" -f2")
+  numsong = awful.util.pread("mpc playlist | nl -s ' ' | tr -s \" \" | dmenu -l 10 " .. dmenuopts .. "| cut -d \" \" -f2")
   awful.util.spawn(numsong ~= "" and "mpc play " .. numsong or nil) 
 end 
 

@@ -18,7 +18,9 @@ function pomodoro:settime(t)
   else
     t = os.date("%M:%S", t)
   end
-  self.widget.text = string.format('<span color="' .. beautiful.colors.red .. '"><b>%s</b></span>', t)
+  self.widget.bg= "#880000"
+  self.widget.text = t
+  --self.widget.text = string.format('<span color="' .. beautiful.fg_normal .. '"><b>%s</b></span>', t)
 end
 
 function pomodoro:notify(title, text, duration, working)

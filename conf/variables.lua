@@ -1,5 +1,5 @@
 local home   = os.getenv("HOME")
-dmenuopts= "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.fg_urgent.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
+dmenuopts= "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.bg_urgent.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
 --dmenuopts= "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.fg_urgent.."' -sb '"..beautiful.bg_focus.."' -fn '-*-liberation mono-*-r-*-*-*-120-*-*-*-*-*-*'"
 
 terminal = "urxvtc"

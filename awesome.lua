@@ -3,6 +3,8 @@ require("awful.autofocus")
 require("awful.rules")
 require("beautiful")
 require("eminent.eminent")
+-- run or raise
+require("runorraise.aweror")
 beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
 require("conf.naughtydefaults")
 require("conf.revelation")

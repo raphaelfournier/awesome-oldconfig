@@ -39,7 +39,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "s", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
+    awful.key({ modkey,           }, "z", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -57,8 +57,7 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey,           }, "x", function () awful.util.spawn(terminal) end),
-    --awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn(terminal,false) end),
-    awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root") end),
+    --awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root") end),
     awful.key({                   }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/marie/screenshots/ 2>/dev/null'") end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
@@ -76,7 +75,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "<", function () dmenu_netcfg()                    end), 
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenu_system()                    end), 
-    awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
+    --awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
     awful.key({ modkey,           }, "c", function () awful.util.spawn("urxvt -e mutt") end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("pcmanfm")       end),
 

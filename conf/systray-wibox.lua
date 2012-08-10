@@ -95,6 +95,7 @@ testw.text = s .. "/" .. screen.count()
     mywibox[s].widgets = {
         {
             mylauncher,
+            pomodoro.widget,spacesep,
             mytaglist[s],
             mylayoutbox[s],
             mypromptbox[s],
@@ -107,7 +108,7 @@ testw.text = s .. "/" .. screen.count()
 --        spacesep,mailwidget0,
 --        spacesep,mailwidget1,
 --        spacesep,mailwidget2,
-        spacesep, pomodoro.widget,
+        --spacesep, pomodoro.widget,
 --        spacesep, kbdcfg.widget,
 --        spacesep,
 --        spacesep,testw,
@@ -117,7 +118,7 @@ testw.text = s .. "/" .. screen.count()
 --        spacesep,vol,
         --spacesep,
         --barsep,
-        spacesep,weatherwidget,
+        --spacesep,weatherwidget,
 --        spacesep,weatherwidget,
 --        spacesep,barsep,
 --        spacesep,
