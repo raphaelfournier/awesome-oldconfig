@@ -21,7 +21,7 @@ tags = {
 --names={"⌨","☞","✉","☻","♫","⚡","❁","☄","☃"},
 names={"work","web","mail","im","media","pdf","graph","root","term"},
 --names={"α","β","γ","δ","ε","ζ","η","θ","ι","κ"},
-layout = { layouts[13], 
+layout = { layouts[2], 
            layouts[13], 
            layouts[13], 
            layouts[1], 
@@ -34,6 +34,7 @@ layout = { layouts[13],
 
 for s = 1, screen.count() do
   tags[s] = awful.tag(tags.names, s, tags.layout)
+  awful.tag.setproperty(tags[s][1], "mwfact", 0.72)
   awful.tag.setproperty(tags[s][2], "mwfact", 0.72)
   awful.tag.setproperty(tags[s][3], "mwfact", 0.54)
   awful.tag.setproperty(tags[s][4], "mwfact", 0.62)

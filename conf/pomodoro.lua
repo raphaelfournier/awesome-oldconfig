@@ -19,7 +19,7 @@ function pomodoro:settime(t)
     t = os.date("%M:%S", t)
   end
   self.widget.bg= "#880000"
-  self.widget.text = t
+  self.widget.text = string.format('<b>%s</b>', t)
   --self.widget.text = string.format('<span color="' .. beautiful.fg_normal .. '"><b>%s</b></span>', t)
 end
 
