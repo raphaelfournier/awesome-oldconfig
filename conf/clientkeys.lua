@@ -35,7 +35,7 @@ clientkeys = awful.util.table.join(
     end),
     -- fin de l'ajout
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ altkey,           }, "n",      function (c) c.minimized = true               end),
+    awful.key({ altkey,           }, "r",      function (c) c.minimized = true               end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey,           }, "p",      function (c) c:swap(awful.client.getmaster()) end),

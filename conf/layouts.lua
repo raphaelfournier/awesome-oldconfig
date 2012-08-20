@@ -40,4 +40,3 @@ for s = 1, screen.count() do
   awful.tag.setproperty(tags[s][4], "mwfact", 0.62)
   awful.tag.setproperty(tags[s][7], "mwfact", 0.72)
 end
-

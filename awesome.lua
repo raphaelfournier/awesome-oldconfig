@@ -8,6 +8,7 @@ require("runorraise.aweror")
 beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")
 require("conf.naughtydefaults")
 require("conf.revelation")
+--require("conf.sharetags")
 require("vicious")
 --require("vicious.contrib")
 -- Mirror layout

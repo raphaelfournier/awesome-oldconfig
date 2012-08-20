@@ -22,6 +22,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][4] } },
     { rule = { class = "Pidgin" },
       properties = { tag = tags[1][4] } },
+    { rule = { class = "Instantbird" },
+      properties = { tag = tags[1][4] } },
     { rule = { class = "Skype" },
       properties = { tag = tags[1][4] } },
     { rule = { class = "Acroread" },

@@ -95,7 +95,6 @@ testw.text = s .. "/" .. screen.count()
     mywibox[s].widgets = {
         {
             mylauncher,
-            pomodoro.widget,spacesep,
             mytaglist[s],
             mylayoutbox[s],
             mypromptbox[s],

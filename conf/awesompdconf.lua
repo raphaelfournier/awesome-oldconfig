@@ -4,7 +4,7 @@ musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
 musicwidget.output_size = 30 -- Set the size of widget in symbols
 musicwidget.update_interval = 4 -- Set the update interval in seconds
 musicwidget.notifications = false
-musicwidget.textcolor_play = beautiful.colors.green
+musicwidget.textcolor_play = beautiful.colors.brightgreen
 musicwidget.textcolor_pause = beautiful.colors.cyan
 musicwidget.textcolor_stopped = beautiful.colors.red
 -- Set the folder where icons are located (change username to your login name)

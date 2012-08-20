@@ -70,7 +70,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey,           }, "a", revelation.revelation),
-    awful.key({ altkey, "Shift"   }, "n", function () raise_all()                       end),
+    awful.key({ altkey, "Shift"   }, "r", function () raise_all()                       end),
     awful.key({ modkey,           }, "<", function () dmenu_command()                   end), 
     awful.key({ modkey, "Control" }, "<", function () dmenu_netcfg()                    end), 
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
