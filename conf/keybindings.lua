@@ -73,7 +73,7 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Shift"   }, "r", function () raise_all()                       end),
     awful.key({ modkey,           }, "<", function () dmenu_command()                   end), 
     awful.key({ modkey, "Control" }, "<", function () dmenu_netcfg()                    end), 
-    awful.key({ modkey, "Shift"   }, ">", function () menu_clients()                    end),
+    awful.key({ modkey, "Shift"   }, "<", function () menu_clients()                    end),
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenu_system()                    end), 
     --awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
