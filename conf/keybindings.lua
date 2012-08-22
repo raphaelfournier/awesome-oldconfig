@@ -73,6 +73,7 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Shift"   }, "r", function () raise_all()                       end),
     awful.key({ modkey,           }, "<", function () dmenu_command()                   end), 
     awful.key({ modkey, "Control" }, "<", function () dmenu_netcfg()                    end), 
+    awful.key({ modkey, "Shift"   }, ">", function () menu_clients()                    end),
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenu_system()                    end), 
     --awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
@@ -101,10 +102,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F5",     function () pwd_prompt()                    end),
     awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
     awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
-    awful.key({ modkey }, "F9", function ()
-              awful.menu.menu_keys.down = { "Down", "Alt_L" }
-                      local cmenu = awful.menu.clients({width=230}, {
-                        keygrabber=true, coords={x=525, y=330} }) end),
-    awful.key({ modkey }, "F8",     function () converter_prompt()              end)
+    awful.key({ modkey }, "F8",     function () converter_prompt()              end),
+    awful.key({ modkey }, "F9",     function () stickynote()                    end)
 )
 

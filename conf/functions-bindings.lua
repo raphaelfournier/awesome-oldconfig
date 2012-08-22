@@ -26,6 +26,33 @@ function manual_prompt()
           end)
 end
 
+function stickynote()
+  awful.prompt.run({  
+    bg_cursor = "yellow",
+    prompt = "<span color='#FFFF00'>Note:</span> " }, mypromptbox[mouse.screen].widget,
+    function(note)
+        naughty.notify {
+          bg            = "#FFFF00",
+          fg            = "#000000",
+          title         = "Note",
+          text          = note,
+          timeout       = 0, 
+          hover_timeout = 1,
+          --icon          = ico,
+          --icon_size     = 150,
+          width         = 700, 
+          position      = "top_right", 
+          screen        = mouse.screen
+  }
+    end,
+    nil, awful.util.getdir("cache") .. "/note")
+end
+
+function menu_clients()
+  awful.menu.menu_keys.down = { "Down", "Alt_L" }
+  local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} }) 
+end
+
 function dmenu_command() 
   awful.util.spawn("dmenu_run -f -p 'Run command:' " .. dmenuopts) 
 end
