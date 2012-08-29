@@ -19,5 +19,6 @@ table5={
    --["s"]={"xterm -name rootTerm -cr red -title rootTerm -e su","rootTerm", "instance"}, 
    --["t"]={"xterm -name htopTerm -e htop","htopTerm","instance"}, 
    --["b"]={"xterm -name rtorrentTerm -e rtorrent","rtorrentTerm","instance"}, 
+   ["g"]={"urxvt -e ncmpcpp","ncmpc", "name"},
    ["s"]={"urxvt -name \"rootterm\" -e su root","rootterm", "instance"} 
 }
