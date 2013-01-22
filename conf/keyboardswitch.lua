@@ -2,7 +2,7 @@
 kbdcfg = {}
 kbdcfg.cmd = "setxkbmap"
 kbdcfg.layout = { "fr oss", "fr bepo", "us" }
-kbdcfg.current = 1  -- us is our default layout
+kbdcfg.current = 1
 kbdcfg.widget = widget({ type = "textbox", align = "right" })
 kbdcfg.widget.text = kbdcfg.layout[kbdcfg.current]
 kbdcfg.switch = function ()

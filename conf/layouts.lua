@@ -21,14 +21,14 @@ tags = {
 --names={"⌨","☞","✉","☻","♫","⚡","❁","☄","☃"},
 names={"work","web","mail","im","media","pdf","graph","root","term"},
 --names={"α","β","γ","δ","ε","ζ","η","θ","ι","κ"},
-layout = { layouts[2], 
+layout = { layouts[13], 
            layouts[13], 
            layouts[13], 
            layouts[1], 
            layouts[13], 
            layouts[13], 
            layouts[1], 
-           layouts[1], 
+           layouts[13], 
            layouts[1]}
 }
 

@@ -12,6 +12,7 @@ module("ror")
 table5={
    --["e"]={"emacsclient -a emacs -n -c","Emacs"}, 
    ["w"]={"firefox","Firefox"}, 
+   --["XF86HomePage"]={"firefox","Firefox"}, 
    --["v"]={"firefox -new-window 'http://www.evernote.com/Home.action?login=true#v=l&so=mn'","Evernote", "name"}, 
    --["g"]={"firefox -new-window 'http://mail.google.com/mail/'","Gmail","name"}, 
    --["x"]={"xterm","xterm", "instance"}, 

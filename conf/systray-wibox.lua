@@ -89,8 +89,8 @@ for s = 1, screen.count() do
 --    }
 --    secwibox[s].visible = false
     -- Add widgets to the wibox - order matters
-testw = widget({ type = "textbox"})
-testw.text = s .. "/" .. screen.count()
+screennbr = widget({ type = "textbox"})
+screennbr.text = s .. "/" .. screen.count()
 
     mywibox[s].widgets = {
         {
@@ -102,27 +102,27 @@ testw.text = s .. "/" .. screen.count()
         },
         s == 1 and mysystray or nil,
         datewidget,
-        spacesep,batwidget,
---        spacesep,batwidget2,
+        --spacesep,batwidget,
+        spacesep,batwidget2,
 --        spacesep,mailwidget0,
 --        spacesep,mailwidget1,
 --        spacesep,mailwidget2,
-        spacesep, pomodoro.widget,
---        spacesep, kbdcfg.widget,
+        --spacesep, pomodoro.widget,
+        --spacesep, kbdcfg.widget,
 --        spacesep,
---        spacesep,testw,
+        --spacesep,screennbr,
         --barsep,
         spacesep,generalvolwidget,spacesep,volwidget,
 --        spacesep, tb_todo,
 --        spacesep,vol,
-        --spacesep,
+        spacesep,
         --barsep,
         --spacesep,weatherwidget,
 --        spacesep,weatherwidget,
 --        spacesep,barsep,
 --        spacesep,
 --        mpdwidget,
-        musicwidget.widget,
+        --musicwidget.widget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }

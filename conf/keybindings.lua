@@ -91,7 +91,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
-    awful.key({ modkey,           }, "d", function () coverart()                                       end),
+    awful.key({ modkey,           }, "d", awful.tag.history.restore),
+    awful.key({ modkey, "Shift"   }, "d", function () coverart()                                       end),
 -- transset permet de modifier la transparence d'une fenêtre
     awful.key({ modkey,           }, "!", function () awful.util.spawn("transset-df -a --inc 0.1")     end),
     awful.key({ modkey, "Shift"   }, "!", function () awful.util.spawn("transset-df -a --dec 0.1")     end),
@@ -103,6 +104,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
     awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
     awful.key({ modkey }, "F8",     function () converter_prompt()              end),
-    awful.key({ modkey }, "F9",     function () stickynote()                    end)
+    awful.key({ modkey }, "F9",     function () stickynote()                    end),
+    --awful.key({  }, "XF86HomePage", function ()  awful.util.spawn("firefox")    end),
+    awful.key({  }, "XF86Mail", function ()  awful.util.spawn("urxvt -e mutt")    end),
+    awful.key({  }, "XF86AudioPrev", function ()  awful.util.spawn("mpc prev")    end),
+    awful.key({  }, "XF86AudioNext", function ()  awful.util.spawn("mpc next")    end)
 )
 

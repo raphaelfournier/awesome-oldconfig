@@ -20,7 +20,7 @@ naughty.config.presets.critical.fg             = '#dcdccc'
 naughty.config.presets.critical.position       = "bottom_right"
 naughty.config.presets.critical.border_color   = beautiful.border_focus or '#535d6c'
 --
---naughty.config.default_preset.screen           = 1
+naughty.config.default_preset.screen           = screen.count()
 --naughty.config.default_preset.margin           = 4
 --naughty.config.default_preset.height           = 48
 --naughty.config.default_preset.fg               = beautiful.fg_focus or '#ffffff'
