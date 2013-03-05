@@ -1,3 +1,31 @@
+function rorapps()
+    local f_reader = io.popen( "dmenu_run -b -nb '".. beautiful.bg_normal .."' -nf '".. beautiful.fg_normal .."' -sb '#955'")
+    local command = assert(f_reader:read('*a'))
+    f_reader:close()
+    if command == "" then return end
+
+    -- Check throught the clients if the class match the command
+    local lower_command=string.lower(command)
+    for k, c in pairs(client.get()) do
+        local class=string.lower(c.class)
+        naughty.notify {
+          text          = class,
+          width         = 700, 
+          position      = "top_right", 
+          screen        = mouse.screen
+        }
+        if string.match(class, lower_command) then
+            for i, v in ipairs(c:tags()) do
+                awful.tag.viewonly(v)
+                c:raise()
+                c.minimized = false
+                return
+            end
+        end
+    end
+    awful.util.spawn(command)
+end
+
 function manual_prompt()
   awful.prompt.run({ prompt = "Manual: " }, mypromptbox[mouse.screen].widget,
       --  Use GNU Emacs for manual page display

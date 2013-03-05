@@ -1,8 +1,8 @@
-awful = require("awful")
+require("awful")
 require("awful.autofocus")
 require("awful.rules")
-beautiful = require("beautiful")
-eminent = require("eminent.eminent")
+require("beautiful")
+--eminent = require("eminent.eminent")
 -- run or raise
 require("runorraise.aweror")
 beautiful.init(awful.util.getdir("config") .. "/themes/current_theme/theme.lua")

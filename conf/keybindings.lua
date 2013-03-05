@@ -90,6 +90,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
+    awful.key({ modkey, "Control" }, "w", function () rorapps()                                        end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
     awful.key({ modkey,           }, "d", awful.tag.history.restore),
     awful.key({ modkey, "Shift"   }, "d", function () coverart()                                       end),
