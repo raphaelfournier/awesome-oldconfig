@@ -6,6 +6,7 @@ awful.rules     = require("awful.rules")
 awful.autofocus = require("awful.autofocus")
 -- Widget and layout library
 local wibox     = require("wibox")
+require('awesompd/awesompd')
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
@@ -16,16 +17,38 @@ local eminent   = require("eminent.eminent")
 local ror       = require("runorraise.aweror")
 local cal       = require("cal")
 
+naughty.config.defaults.screen           = screen.count()
+naughty.config.defaults.timeout          = 10
+naughty.config.defaults.hover_timeout    = 0.5
+naughty.config.defaults.position         = "bottom_right"
+naughty.config.defaults.width            = 400
+naughty.config.defaults.gap              = 10
+naughty.config.defaults.ontop            = true
+naughty.config.defaults.font             = beautiful.notifyfont or "Inconsolata Medium 14"
+naughty.config.defaults.icon             = nil
+naughty.config.defaults.icon_size        = 16
+naughty.config.presets.normal.border_color     = beautiful.border_focus or '#535d6c'
+naughty.config.defaults.border_width     = 1
+naughty.config.presets.low.bg                  = '#506070'
+naughty.config.presets.low.fg                  = '#f0dfaf'
+naughty.config.presets.low.border_color        = beautiful.border_focus or '#535d6c'
+naughty.config.presets.critical.bg             = '#882222'
+naughty.config.presets.critical.fg             = '#dcdccc'
+naughty.config.presets.critical.border_color   = beautiful.border_focus or '#535d6c'
+naughty.config.defaults.margin           = 4
+naughty.config.defaults.height           = 48
+
 -- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
+-- Check if awesome encountered an error during startup and fall back to
 -- another config (This code will only ever execute for the fallback config)
-if awesome.startup_errors then
+
+ if awesome.startup_errors then
+    local fh = io.open(awful.util.getdir('config') .. '/awesomerror.log', 'w')
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors,
-                     width = 700,
-                     screen = mouse.screen})
-end
+                     text = awesome.startup_errors })
+    fh:write(awesome.startup_errors..'\n')
+ end
 
 -- Handle runtime errors after startup
 do
@@ -65,26 +88,6 @@ dmenuopts = "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal..
 modkey = "Mod4"
 altkey = "Mod1"
 
-naughty.config.defaults.screen           = screen.count()
-naughty.config.defaults.timeout          = 10
-naughty.config.defaults.hover_timeout    = 0.5
---naughty.config.defaults.position         = "bottom_right"
-naughty.config.defaults.width            = 900
-naughty.config.defaults.gap              = 10
-naughty.config.defaults.ontop            = true
-naughty.config.defaults.font             = beautiful.notifyfont or "Verdana 16"
-naughty.config.defaults.icon             = nil
-naughty.config.defaults.icon_size        = 16
-naughty.config.presets.normal.border_color     = beautiful.border_focus or '#535d6c'
-naughty.config.defaults.border_width     = 1
-naughty.config.presets.low.bg                  = '#506070'
-naughty.config.presets.low.fg                  = '#f0dfaf'
-naughty.config.presets.low.border_color        = beautiful.border_focus or '#535d6c'
-naughty.config.presets.critical.bg             = '#882222'
-naughty.config.presets.critical.fg             = '#dcdccc'
-naughty.config.presets.critical.border_color   = beautiful.border_focus or '#535d6c'
-naughty.config.defaults.margin           = 4
-naughty.config.defaults.height           = 48
 --
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -569,6 +572,69 @@ function converter_prompt()
     end,
     nil, awful.util.getdir("cache") .. "/convert") 
 end
+--
+-- BEGIN OF AWESOMPD WIDGET DECLARATION
+
+
+  musicwidget = awesompd:create() -- Create awesompd widget
+  musicwidget.font = beautiful.font or "Liberation Mono" -- Set widget font 
+--musicwidget.font_color = "#000000"	--Set widget font color
+--musicwidget.background = "#FFFFFF"	--Set widget background
+  musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
+  musicwidget.output_size = 30 -- Set the size of widget in symbols
+  musicwidget.update_interval = 10 -- Set the update interval in seconds
+
+  -- Set the folder where icons are located (change username to your login name)
+  musicwidget.path_to_icons = "/home/raph/.config/awesome/awesompd/icons" 
+
+  -- Set the default music format for Jamendo streams. You can change
+  -- this option on the fly in awesompd itself.
+  -- possible formats: awesompd.FORMAT_MP3, awesompd.FORMAT_OGG
+  musicwidget.jamendo_format = awesompd.FORMAT_MP3
+  
+  -- Specify the browser you use so awesompd can open links from
+  -- Jamendo in it.
+  musicwidget.browser = "firefox"
+
+  -- If true, song notifications for Jamendo tracks and local tracks
+  -- will also contain album cover image.
+  musicwidget.show_album_cover = true
+
+  -- Specify how big in pixels should an album cover be. Maximum value
+  -- is 100.
+  musicwidget.album_cover_size = 50
+  
+  -- This option is necessary if you want the album covers to be shown
+  -- for your local tracks.
+  musicwidget.mpd_config = "/home/raph/.mpd/mpd.conf"
+  
+  -- Specify decorators on the left and the right side of the
+  -- widget. Or just leave empty strings if you decorate the widget
+  -- from outside.
+  musicwidget.ldecorator = " "
+  musicwidget.rdecorator = " "
+
+  -- Set all the servers to work with (here can be any servers you use)
+  musicwidget.servers = {
+     { server = "localhost",
+          port = 6600 },
+     { server = "192.168.0.72",
+          port = 6600 }
+  }
+
+  -- Set the buttons of the widget. Keyboard keys are working in the
+  -- entire Awesome environment. Also look at the line 352.
+  musicwidget:register_buttons({ { "", awesompd.MOUSE_LEFT, musicwidget:command_playpause() },
+                  { "Control", awesompd.MOUSE_SCROLL_UP, musicwidget:command_prev_track() },
+               { "Control", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_next_track() },
+               { "", awesompd.MOUSE_SCROLL_UP, musicwidget:command_volume_up() },
+               { "", awesompd.MOUSE_SCROLL_DOWN, musicwidget:command_volume_down() },
+               { "", awesompd.MOUSE_RIGHT, musicwidget:command_show_menu() },
+                               { "", "XF86AudioLowerVolume", musicwidget:command_volume_down() },
+                               { "", "XF86AudioRaiseVolume", musicwidget:command_volume_up() },
+                               { modkey, "Pause", musicwidget:command_playpause() } })
+
+  musicwidget:run() -- After all configuration is done, run the widget
 
 -- {{{ Wibox
 space = wibox.widget.textbox()
@@ -696,6 +762,8 @@ myscreennumber:set_text(s.."/"..screen.count())
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(space)
+    right_layout:add(musicwidget.widget)
     right_layout:add(space)
     right_layout:add(batwidget)
     right_layout:add(space)
@@ -968,6 +1036,8 @@ awful.rules.rules = {
       properties = { tag = tags[screen.count()][5] } },
     { rule = { class = "Firefox" },
       properties = { tag = tags[screen.count()][2] } },
+    { rule = { name = "Redshiftgui" },
+      properties = { floating = true               } },
     { rule = { name = "pomodairo" },
       properties = { floating = true, sticky =true } },
     { rule = { class = "Hotot" },

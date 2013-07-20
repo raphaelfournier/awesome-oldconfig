@@ -36,11 +36,18 @@ function displayMonth(month,year,weekStart)
 	local d=os.date("*t",t)
 	local mthDays,stDay=d.day,(d.wday-d.day-wkSt+1)%7
 
-	local lines = "    "
+	local lines = "----"
 
-	for x=0,6 do
-		lines = lines .. os.date("%a ",os.time{year=2006,month=1,day=x+wkSt})
-	end
+	--for x=0,6 do
+		--lines = lines .. os.date("%a ",os.time{year=2006,month=1,day=x+wkSt})
+	--end
+		lines = lines .. os.date("  l ",os.time{year=2006,month=1,day=0+wkSt})
+		lines = lines .. os.date("  m ",os.time{year=2006,month=1,day=1+wkSt})
+		lines = lines .. os.date("  m ",os.time{year=2006,month=1,day=2+wkSt})
+		lines = lines .. os.date("  j ",os.time{year=2006,month=1,day=3+wkSt})
+		lines = lines .. os.date("  v ",os.time{year=2006,month=1,day=4+wkSt})
+		lines = lines .. os.date("  s ",os.time{year=2006,month=1,day=5+wkSt})
+		lines = lines .. os.date("  d ",os.time{year=2006,month=1,day=6+wkSt})
 
 	lines = lines .. "\n" .. os.date(" %V",os.time{year=year,month=month,day=1})
 
@@ -72,7 +79,7 @@ function displayMonth(month,year,weekStart)
         if stDay + mthDays < 29 then
                 lines = lines .. "\n"
         end
-        local header = os.date("%B %Y\n",os.time{year=year,month=month,day=1})
+        local header = os.date("           %B %Y       \n",os.time{year=year,month=month,day=1})
 
 	return header .. "\n" .. lines
 end
