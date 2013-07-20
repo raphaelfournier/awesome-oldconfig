@@ -433,6 +433,22 @@ function coverart()
   coverart_show()
 end
 
+
+function raiseapp()
+  local allclients = client.get(mouse.screen)
+  clientsline = nil
+  --awful.util.spawn(netcfgprofile ~= "" and "sudo netcfg -r " .. netcfgprofile or nil) 
+  naughty.notify({ text = "coucou : "..netcfgprofile, width = 400, screen = mouse.screen})
+  for _,c in ipairs(allclients) do
+      if c.minimized and c:tags()[mouse.screen] == awful.tag.selected(mouse.screen) then
+          c.minimized = false
+          client.focus = c
+          c:raise()
+          return
+      end
+  end
+end
+
 function raise_all()
   local allclients = client.get(mouse.screen)
   for _,c in ipairs(allclients) do
@@ -882,7 +898,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
-    awful.key({ modkey, "Control" }, "w", function () rorapps()                                        end),
+    awful.key({ modkey, "Control" }, "w", function () raiseapp()                                        end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
     awful.key({ modkey,           }, "d", awful.tag.history.restore),
     awful.key({ modkey, "Shift"   }, "d", function () coverart()                                       end),
