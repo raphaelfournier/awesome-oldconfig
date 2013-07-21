@@ -21,7 +21,9 @@ naughty.config.defaults.screen           = screen.count()
 naughty.config.defaults.timeout          = 10
 naughty.config.defaults.hover_timeout    = 0.5
 naughty.config.defaults.position         = "bottom_right"
-naughty.config.defaults.width            = 400
+naughty.config.defaults.height           = 150
+naughty.config.defaults.margin           = 4
+naughty.config.defaults.width            = 800
 naughty.config.defaults.gap              = 10
 naughty.config.defaults.ontop            = true
 naughty.config.defaults.font             = beautiful.notifyfont or "Inconsolata Medium 14"
@@ -34,9 +36,9 @@ naughty.config.presets.low.fg                  = '#f0dfaf'
 naughty.config.presets.low.border_color        = beautiful.border_focus or '#535d6c'
 naughty.config.presets.critical.bg             = '#882222'
 naughty.config.presets.critical.fg             = '#dcdccc'
+naughty.config.presets.critical.width          = 400
+naughty.config.presets.critical.height         = 100
 naughty.config.presets.critical.border_color   = beautiful.border_focus or '#535d6c'
-naughty.config.defaults.margin           = 4
-naughty.config.defaults.height           = 48
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fall back to
@@ -46,7 +48,7 @@ naughty.config.defaults.height           = 48
     local fh = io.open(awful.util.getdir('config') .. '/awesomerror.log', 'w')
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
+                     text = awful.util.linewrap(awesome.startup_errors) })
     fh:write(awesome.startup_errors..'\n')
  end
 
@@ -60,7 +62,7 @@ do
 
         naughty.notify({ preset = naughty.config.presets.critical,
                          title = "Oops, an error happened!",
-                         text = err, screen = mouse.screen })
+                         text = awful.util.linewrap(err), screen = mouse.screen })
         in_error = false
     end)
 end
@@ -433,19 +435,23 @@ function coverart()
   coverart_show()
 end
 
-
 function raiseapp()
   local allclients = client.get(mouse.screen)
-  clientsline = nil
-  --awful.util.spawn(netcfgprofile ~= "" and "sudo netcfg -r " .. netcfgprofile or nil) 
-  naughty.notify({ text = "coucou : "..netcfgprofile, width = 400, screen = mouse.screen})
+  clientsline = ""
   for _,c in ipairs(allclients) do
-      if c.minimized and c:tags()[mouse.screen] == awful.tag.selected(mouse.screen) then
-          c.minimized = false
-          client.focus = c
-          c:raise()
-          return
+    clientsline = clientsline .. c.name .. "\n"
+  end
+  selected = awful.util.pread("echo '".. clientsline .."' | dmenu -l 10 " .. dmenuopts)
+  for _,c in ipairs(allclients) do
+    if c.name == selected:gsub("\n", "") then
+      for i, v in ipairs(c:tags()) do
+        awful.tag.viewonly(v)
+        client.focus = c
+        c:raise()
+        c.minimized = false
+        return
       end
+    end
   end
 end
 
