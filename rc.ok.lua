@@ -16,6 +16,7 @@ local menubar   = require("menubar")
 local eminent   = require("eminent.eminent")
 local ror       = require("runorraise.aweror")
 local cal       = require("cal")
+local dmenuswitchapps = require("dmenu-switch-apps")
 
 naughty.config.defaults.screen           = screen.count()
 naughty.config.defaults.timeout          = 10
@@ -433,26 +434,6 @@ end
 function coverart()
   naughty.config.presets.normal.position = naughty_coverart_position,
   coverart_show()
-end
-
-function raiseapp()
-  local allclients = client.get(mouse.screen)
-  clientsline = ""
-  for _,c in ipairs(allclients) do
-    clientsline = clientsline .. c.name .. "\n"
-  end
-  selected = awful.util.pread("echo '".. clientsline .."' | dmenu -l 10 " .. dmenuopts)
-  for _,c in ipairs(allclients) do
-    if c.name == selected:gsub("\n", "") then
-      for i, v in ipairs(c:tags()) do
-        awful.tag.viewonly(v)
-        client.focus = c
-        c:raise()
-        c.minimized = false
-        return
-      end
-    end
-  end
 end
 
 function raise_all()
@@ -904,7 +885,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
-    awful.key({ modkey, "Control" }, "w", function () raiseapp()                                        end),
+    awful.key({ modkey, "Control" }, "w", function () dmenuswitchapps.raiseapp()                                        end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
     awful.key({ modkey,           }, "d", awful.tag.history.restore),
     awful.key({ modkey, "Shift"   }, "d", function () coverart()                                       end),
