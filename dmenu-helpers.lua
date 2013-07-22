@@ -14,13 +14,14 @@ function dmenuhelpers.switchapp()
   local allclients = client.get(mouse.screen)
   clientsline = ""
   for _,c in ipairs(allclients) do
-    clientsline = clientsline .. c.name .. "\n"
+    clientsline = clientsline .. c:tags()[1].name .. " - " .. c.name .. "\n"
   end
   selected = awful.util.pread("echo '".. clientsline .."' | dmenu -l 10 " .. dmenuopts)
   for _,c in ipairs(allclients) do
     if c.name == selected:gsub("\n", "") then
       for i, v in ipairs(c:tags()) do
         awful.tag.viewonly(v)
+        --naughty.notify({ text = "service : "..v.name, width = 400, position = top_left, screen = mouse.screen})
         client.focus = c
         c:raise()
         c.minimized = false
