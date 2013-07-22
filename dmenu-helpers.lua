@@ -18,7 +18,8 @@ function dmenuhelpers.switchapp()
   end
   selected = awful.util.pread("echo '".. clientsline .."' | dmenu -l 10 " .. dmenuopts)
   for _,c in ipairs(allclients) do
-    if c.name == selected:gsub("\n", "") then
+    a = c:tags()[1].name .. " - " .. c.name 
+    if a == selected:gsub("\n", "") then
       for i, v in ipairs(c:tags()) do
         awful.tag.viewonly(v)
         --naughty.notify({ text = "service : "..v.name, width = 400, position = top_left, screen = mouse.screen})
