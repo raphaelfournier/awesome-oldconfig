@@ -24,7 +24,7 @@ function unitconverter.prompt()
       if index ~=1 and #words == sep + 1 then 
         height = 100
         destunit = words[sep+1]
-        if words[sep+1] == "C" then
+        if destunit == "C" then
           answer = words[1].." F ".. localequiv..(words[1]-32)*5/9 .." C"
         elseif destunit == "F" then
           answer = words[1].." C ".. localequiv..(words[1]*9/5)-32 .." F"
@@ -85,30 +85,6 @@ function unitconverter.prompt()
           naughty.notify({ text = answer, width = 400, height = height, screen=mouse.screen})
     end,
     nil, awful.util.getdir("cache") .. "/convert") 
-end
-
-function unitconverter.manual_prompt()
-  awful.prompt.run({ prompt = "Manual: " }, mypromptbox[mouse.screen].widget,
-          function (page) awful.util.spawn("urxvt -e man " .. page, false) end,
-          function(cmd, cur_pos, ncomp)
-            local pages = {}
-            --local m = 'IFS=: && find $(manpath||echo "$MANPATH") -type f -printf "%f\n"| cut -d. -f1'
-            local m = 'coucou\ncoudre\ndfg\ntresor\n'
-            local c, err = io.popen(m)
-            if c then while true do
-              local manpage = c:read("*line")
-              if not manpage then break end
-              if manpage:find("^" .. cmd:sub(1, cur_pos)) then
-                  table.insert(pages, manpage)
-              end
-            end
-            c:close()
-            else io.stderr:write(err) end
-            if #cmd == 0 then return cmd, cur_pos end
-            if #pages == 0 then return end
-            while ncomp > #pages do ncomp = ncomp - #pages end
-            return pages[ncomp], cur_pos
-          end)
 end
 
 return unitconverter
