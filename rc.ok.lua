@@ -16,6 +16,7 @@ local naughty   = require("naughty")
 require("naughtydefaults")
 local menubar   = require("menubar")
 
+local keydoc = require("keydoc")
 require('awesompd/awesompd')
 local vicious   = require("vicious")
 local eminent   = require("eminent.eminent")
@@ -23,6 +24,8 @@ local ror       = require("runorraise.aweror")
 local cal       = require("cal")
 local dmenuhelpers = require("dmenu-helpers")
 local unitconverter = require("unitconverter")
+
+local lain = require("lain")
 
 dmenuhelpers.textexppath = "/home/raph/.textexp"
 -- {{{ Error handling
@@ -81,6 +84,10 @@ local layouts =
     awful.layout.suit.fair,
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.floating,
+    lain.layout.termfair,
+    lain.layout.centerwork,
+    lain.layout.uselesstile,
+    --lain.layout.cascade,
     awful.layout.suit.max
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
@@ -104,14 +111,14 @@ tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag({"work","web","mail","im","media","pdf","graph","root","term"}, s, { 
-           layouts[8], 
-           layouts[8], 
-           layouts[8], 
-           layouts[8], 
-           layouts[8], 
-           layouts[8], 
+           layouts[11], 
+           layouts[11], 
+           layouts[11], 
+           layouts[11], 
+           layouts[11], 
+           layouts[11], 
            layouts[1], 
-           layouts[8], 
+           layouts[11], 
            layouts[1]})
   awful.tag.setproperty(tags[s][1], "mwfact", 0.72)
   awful.tag.setproperty(tags[s][2], "mwfact", 0.72)
@@ -555,8 +562,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "z", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
+    keydoc.group("Layout manipulation"),
+    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end, "Swap with next window"),
+    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end, "Swap with previous window"),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
@@ -568,6 +576,8 @@ globalkeys = awful.util.table.join(
             end
         end),
 
+    awful.key({ modkey, }, "F1", keydoc.display),
+    keydoc.group("Window manipulation"),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey,           }, "x", function () awful.util.spawn(terminal) end),
     --awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root") end),
@@ -583,9 +593,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     --awful.key({ modkey,           }, "a", revelation.revelation),
-    awful.key({ modkey,           }, "<", function () dmenuhelpers.run()                   end), 
-    awful.key({ modkey, "Control" }, "<", function () dmenuhelpers.netcfg()                    end), 
-    awful.key({ modkey, "Shift"   }, "<", function () menu_clients()                    end),
+    awful.key({ modkey,           }, "<", function () dmenuhelpers.run()                   end,"dmenu_run"), 
+    awful.key({ modkey, "Control" }, "<", function () dmenuhelpers.netcfg()                    end,"dmenu_netcfg"), 
+    awful.key({ modkey, "Shift"   }, "<", function () menu_clients()                    end,"open menu with applications"),
     awful.key({ modkey, "Control" }, "q", function () dmenuhelpers.mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenuhelpers.system()                    end), 
     -- run or raise
@@ -595,7 +605,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "c", function () awful.util.spawn("urxvt -e mutt") end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
-    awful.key({ modkey,           }, "e", function () awful.util.spawn("pcmanfm")       end),
+    awful.key({ modkey,           }, "e", function () awful.util.spawn("nautilus")       end),
 
     awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset PCM 2%+")       end),
     awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("amixer -q sset PCM 1%-")       end),
@@ -630,7 +640,6 @@ globalkeys = awful.util.table.join(
     awful.key({      }, "XF86Mail", function ()  awful.util.spawn("urxvt -e mutt")  end)
     --awful.key({  }, "XF86HomePage", function ()  awful.util.spawn("firefox")    end),
 )
-
 
 clientkeys = awful.util.table.join(
 -- un petit ajout personnel : avec mod+shift+left/right on déplace rapidement
@@ -754,8 +763,8 @@ awful.rules.rules = {
     --{ rule = { class = "MPlayer" },
     --  properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "mplayer" },
-      properties = { tag = tags[screen.count()][5], switchtotag = true } },
+    --{ rule = { class = "mplayer" },
+      --properties = { tag = tags[screen.count()][5], switchtotag = true } },
     { rule = { class = "Chromium" },
       properties = { tag = tags[screen.count()][5] } },
     { rule = { class = "Firefox" },
@@ -801,7 +810,7 @@ awful.rules.rules = {
     { rule = { class = "Scribus" },
       properties = { tag = tags[screen.count()][7] } },
     { rule = { class = "LibreOffice" },
-      properties = { tag = tags[screen.count()][6], floating = false,  switchtotag = true } },
+      properties = { tag = tags[screen.count()][6], floating = false,  switchtotag = true, maximized_vertical = true, maximized_horizontal = true } },
     { rule = { class = "Gimp" },
       properties = { tag = tags[screen.count()][7], floating = false } },
 }

@@ -61,7 +61,7 @@ function dmenuhelpers.expandtext()
   textexpfile = "/home/raph/.textexp"
   service = awful.util.pread("cat "..textexpfile.." | grep -v ^# | cut -d: -f1 | dmenu -l 10 " .. dmenuopts)
   linetextexp = awful.util.pread("cat "..textexpfile.." | grep -i -m1 "..service):gsub("\n", "")
-  textexp = awful.util.pread("echo " .. linetextexp .. " | cut -d: -f2"):gsub("\n", "")
+  textexp = awful.util.pread("echo " .. linetextexp .. " | cut -d: -f2-"):gsub("\n", "")
   if textexp ~= "\n" and textexp ~= "" then
     textexp = string.gsub(textexp, " bb ", "\n")
     naughty.notify({ text = "service : "..service, width = 400, screen = mouse.screen})
