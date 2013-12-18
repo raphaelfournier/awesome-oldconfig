@@ -14,6 +14,7 @@ local vicious   = require("vicious")
 local menubar   = require("menubar")
 local eminent   = require("eminent.eminent")
 local ror       = require("runorraise.aweror")
+local lain = require("lain")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -66,13 +67,7 @@ altkey = "Mod1"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.floating,
+    lain.layout.uselesstile,
     awful.layout.suit.max
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
@@ -94,7 +89,7 @@ local layouts =
 -- Define a tag table which hold all screen tags.
 tags = {}
 for s = 1, screen.count() do
-    tags[s] = awful.tag({"tag"}, s, { layouts[8], })
+    tags[s] = awful.tag({"tag"}, s, { layouts[2], })
 end
 
 -- }}}
@@ -358,71 +353,6 @@ function dict_prompt()
     nil, awful.util.getdir("cache") .. "/dict") 
 end
 
-function converter_prompt()
-  awful.prompt.run({ 
-    fg_cursor = "black",bg_cursor="blue", prompt = " Ask: " }, 
-    mypromptbox[mouse.screen].widget,
-    function(expression)
-      index = 1
-      words={}
-      sep = 0
-      localequiv="font "
-      localand="et "
-      for word in expression:gmatch("%w+") 
-      do 
-        words[index]=word
-        if word == "en" then sep = index end
-        index= index+1
-      end
-      if index ~=1 and #words == sep + 1 then 
-        if words[sep+1] == "C" then
-          celsius = awful.util.pread("echo \"scale=2;(" .. words[1] .."-32)*5/9\" | bc -l")
-          kelvin = celsius + 273.15
-          answer = words[1].."°F "..localequiv..celsius:sub(1,#celsius-1).."°C\nand to "..kelvin.."°K"
-        elseif words[sep+1] == "F" then
-          farenheit = awful.util.pread("echo \"scale=2;(" .. words[1] .."*9/5)+32\" | bc -l")
-          kelvin = words[1] + 273.15
-          answer = words[1].."°C equals to "..farenheit:sub(1,#celsius-1).."°F\n"..localand..kelvin.."°K"
-        elseif words[sep+1] == "km" then
-          answer = words[1].." miles ".. localequiv..words[1]*1.609 .." km"
-        elseif words[sep+1] == "miles" then
-          answer = words[1].." km equals to ".. words[1]/1.609 .." miles"
-        elseif words[sep+1] == "litres" then
-          answer = words[1].." gallons ".. localequiv..words[1]*3.785 .." litres"
-        elseif words[sep+1] == "gallons" then
-          answer = words[1].." litres equals to ".. words[1]/3.785 .." gallons"
-        elseif words[sep+1] == "kg" then
-          answer = words[1].." lb ".. localequiv..words[1]*0.45359237 .." kg"
-        elseif words[sep+1] == "lb" then
-          answer = words[1].." kg equals to ".. words[1]/0.45359237 .." lb"
-        elseif words[sep+1] == "m2" then
-          answer = words[1].." sq ft ".. localequiv..words[1]*0.09290304 .." mètres carrés"
-        elseif words[sep+1] == "sqft" then
-          answer = words[1].." mètres carrés equals to ".. words[1]/0.09290304 .." sq ft"
-        elseif words[sep+1] == "ml" then
-          answer = words[1].." ounce ".. localequiv..words[1]*28.4130625 .." ml"
-        elseif words[sep+1] == "ounce" then
-          answer = words[1].." ml ".. localequiv..words[1]/28.4130625 .." ounces"
-        elseif words[sep+1] == "eur" then
-          answer = words[1].." usd ".. localequiv..words[1]/1.35870 .." euros"
-        elseif words[sep+1] == "usd" then
-          answer = words[1].." eur ".. localequiv..words[1]*1.35870 .." US dollars"
-        elseif words[sep+1] == "cm" then
-          cm = words[1]*30.48+words[3]*2.54
-          answer = words[1].." ft ".. words[3].." inches ".. localequiv..cm .." centimètres"
-        elseif words[sep+1] == "imperial" then
-          ft = (words[1]-(words[1]%30.48))/30.48
-          inch = (words[1]%30.48)/2.54
-          answer = words[1] .. " cm equals to ".. ft .. " feet and "..inch.." inches"
-        end
-      else
-          answer = "problem with your input. #words="..#words
-      end
-          naughty.notify({ text = answer, width = 400})
-    end,
-    nil, awful.util.getdir("cache") .. "/convert") 
-end
-
 -- {{{ Wibox
 space = wibox.widget.textbox()
 space:set_text(' ')
@@ -565,13 +495,12 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "bottom", screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mylauncher)
-    left_layout:add(mytaglist[s])
-    left_layout:add(mylayoutbox[s])
+    --left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
     -- Widgets that are aligned to the right
@@ -580,6 +509,8 @@ for s = 1, screen.count() do
     right_layout:add(batwidget)
     right_layout:add(space)
     right_layout:add(volumewidget)
+    right_layout:add(space)
+    right_layout:add(mylayoutbox[s])
     right_layout:add(space)
     right_layout:add(mytextclock)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
@@ -660,26 +591,18 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root") end),
     awful.key({                   }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/marie/screenshots/ 2>/dev/null'") end),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-
     --awful.key({ modkey,           }, "a", revelation.revelation),
     awful.key({ modkey,           }, "<", function () dmenu_command()                   end), 
     awful.key({ modkey, "Control" }, "<", function () dmenu_netcfg()                    end), 
     awful.key({ modkey, "Shift"   }, "<", function () menu_clients()                    end),
     awful.key({ modkey, "Shift"   }, "q", function () dmenu_mpd()                       end), 
     awful.key({ modkey,           }, "q", function () dmenu_system()                    end), 
+    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
     -- run or raise
     --awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
     --awful.key({ modkey,           }, "s", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root")       end),
     --
-    awful.key({ modkey,           }, "c", function () awful.util.spawn("urxvt -e mutt") end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("pcmanfm")       end),
 
     awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset PCM 2%+")       end),
@@ -692,79 +615,18 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
-    awful.key({ modkey, "Control" }, "w", function () rorapps()                                        end),
-    awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
-    awful.key({ modkey,           }, "d", awful.tag.history.restore),
-    awful.key({ modkey, "Shift"   }, "d", function () coverart()                                       end),
----- transset permet de modifier la transparence d'une fenêtre
-    awful.key({ modkey,           }, "!", function () awful.util.spawn("transset-df -a --inc 0.1")     end),
-    awful.key({ modkey, "Shift"   }, "!", function () awful.util.spawn("transset-df -a --dec 0.1")     end),
+    awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end)
 -- Prompts
-    awful.key({ modkey }, "Return", function () mypromptbox[mouse.screen]:run() end),
-    awful.key({ modkey }, "r",      function () lua_prompt()                    end),
-    awful.key({ modkey }, "F3",     function () textexp_prompt()                    end),
-    awful.key({ modkey }, "F4",     function () manual_prompt()                 end),
-    awful.key({ modkey }, "F5",     function () pwd_prompt()                    end),
-    awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
-    awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
-    awful.key({ modkey }, "F8",     function () converter_prompt()              end),
-    awful.key({ modkey }, "F9",     function () stickynote()                    end),
-    --awful.key({  }, "XF86HomePage", function ()  awful.util.spawn("firefox")    end),
-    awful.key({  }, "XF86Mail", function ()  awful.util.spawn("urxvt -e mutt")    end),
-    awful.key({ modkey }, "Menu", function () dmenu_command() end),
-    awful.key({  }, "XF86AudioPrev", function ()  awful.util.spawn("mpc prev")    end),
-    awful.key({  }, "XF86AudioNext", function ()  awful.util.spawn("mpc next")    end)
 )
 
 
 clientkeys = awful.util.table.join(
--- un petit ajout personnel : avec mod+shift+left/right on déplace rapidement
--- une fenetre sur le bureau d'à-côté
-    awful.key({ modkey, "Shift"   }, "Left",   function (c) 
-      currtag = c:tags()[1]
-      local destag = 0
-      if currtag then
-        for i, v in ipairs(tags[mouse.screen]) do
-          if v == currtag then
-              destag = i-1
-              break
-          end
-        end
-      end
-      if destag == 0 then
-        destag = #tags[mouse.screen]
-      end
-      awful.client.movetotag(tags[mouse.screen][destag])
-    end),
-    awful.key({ modkey, "Shift"   }, "Right",   function (c) 
-      currtag = c:tags()[1]
-      local destag = 0
-      if currtag then
-        for i, v in ipairs(tags[mouse.screen]) do
-          if v == currtag then
-              destag = i+1
-              break
-          end
-        end
-      end
-      if destag == #tags[mouse.screen]+1 then
-        destag = 1
-      end
-      awful.client.movetotag(tags[mouse.screen][destag])
-    end),
-    -- fin de l'ajout
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
+    --awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
+    --awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    --awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+    --awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
@@ -865,7 +727,7 @@ client.connect_signal("manage", function (c, startup)
         end
     end
 
-    local titlebars_enabled = false
+    local titlebars_enabled = true
     if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
         -- Widgets that are aligned to the left
         local left_layout = wibox.layout.fixed.horizontal()

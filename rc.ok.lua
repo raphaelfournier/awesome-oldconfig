@@ -83,11 +83,11 @@ local layouts =
     awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     awful.layout.suit.max.fullscreen,
-    awful.layout.suit.floating,
     lain.layout.termfair,
     lain.layout.centerwork,
     lain.layout.uselesstile,
     --lain.layout.cascade,
+    awful.layout.suit.floating,
     awful.layout.suit.max
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
@@ -603,14 +603,15 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey,           }, "s", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root")       end),
     --
     awful.key({ modkey,           }, "c", function () awful.util.spawn("urxvt -e mutt") end),
+    awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -e newsbeuter") end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("nautilus")       end),
 
-    awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset PCM 2%+")       end),
-    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("amixer -q sset PCM 1%-")       end),
-    awful.key({ modkey,           }, "g", function () awful.util.spawn("amixer -q sset Master 2%+")    end),
-    awful.key({ modkey, "Shift"   }, "g", function () awful.util.spawn("amixer -q sset Master 1%-")    end),
+    awful.key({ modkey,           }, "g", function () awful.util.spawn("amixer -q sset PCM 2%+")       end),
+    awful.key({ modkey, "Shift"   }, "g", function () awful.util.spawn("amixer -q sset PCM 1%-")       end),
+    awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset Master 2%+")    end),
+    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("amixer -q sset Master 1%-")    end),
     awful.key({ modkey,           }, "b", function () awful.util.spawn("amixer -q sset Master toggle") end),
     awful.key({ modkey,           }, "n", function () awful.util.spawn("mpc next")                     end),
     awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn("mpc prev")                     end),

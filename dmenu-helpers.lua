@@ -8,7 +8,9 @@ local print=print
 
 local dmenuhelpers = {}
 
-dmenuopts = "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.bg_urgent.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
+--dmenuopts = "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.bg_urgent.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
+-- add -z to do fuzzy matching
+dmenuopts = "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.border_focus.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
 
 function dmenuhelpers.switchapp()
   local allclients = client.get(mouse.screen)
@@ -46,16 +48,27 @@ function dmenuhelpers.mpd()
 end 
 
 function dmenuhelpers.system() 
-  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot\nquitlab\nmorninglab' | dmenu -p 'System' -f " .. dmenuopts)
+  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot\nvgaoff\nvgaoffsuspend\necran-24-dell\nvideoproj' | dmenu -p 'System' -f " .. dmenuopts)
   if     choice == "logout\n"   then awesome.quit()
   elseif choice == "halt\n"     then awful.util.spawn("sudo halt")
   elseif choice == "reboot\n"   then awful.util.spawn("sudo reboot")
   elseif choice == "suspend\n"  then awful.util.spawn("sudo pm-suspend")
-  elseif choice == "quitlab\n"  then awful.util.spawn("xrandr --output VGA1 --off && sudo pm-suspend")
-  elseif choice == "morninglab\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-dell24.sh")
+  elseif choice == "vgaoff\n"  then awful.util.spawn("xrandr --output VGA1 --off")
+  elseif choice == "vgaoffsuspend\n"  then awful.util.spawn("xrandr --output VGA1 --off && sudo pm-suspend")
+  elseif choice == "ecran-24-dell\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-dell24.sh")
+  elseif choice == "tele\n"  then awful.util.spawn("xrandr --output VGA1 --mode 1360x768 --right-of LVDS1")
+  elseif choice == "videoproj\n"     then awful.util.spawn("--output LVDS1 --mode 1024x768 --output VGA1 --mode 1024x768 --same-as LVDS1")
   else   choice = ""
   end
 end 
+
+function dmenuhelpers.xrandr()
+  choice = awful.util.pread("echo -e ' \nvgaoff\nvideoproj\necran-24-dell' | dmenu -p 'System' -f " .. dmenuopts)
+  if     choice == "vgaoff\n"   then awful.util.spawn("xrandr --output VGA1--off --output LVDS1 --auto")
+  elseif choice == "ecran-24-dell\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-dell24.sh")
+  else   choice = ""
+  end
+end
 
 function dmenuhelpers.expandtext()
   textexpfile = "/home/raph/.textexp"
