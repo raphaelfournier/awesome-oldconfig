@@ -20,7 +20,7 @@ naughty.config.presets.low.fg                  = '#f0dfaf'
 naughty.config.presets.low.border_color        = beautiful.border_focus or '#535d6c'
 naughty.config.presets.critical.bg             = '#882222'
 naughty.config.presets.critical.fg             = '#dcdccc'
-naughty.config.presets.critical.width          = 400
+naughty.config.presets.critical.width          = 600
 naughty.config.presets.critical.height         = 150
 naughty.config.presets.critical.border_color   = beautiful.border_focus or '#535d6c'
 

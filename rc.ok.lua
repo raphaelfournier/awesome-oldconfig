@@ -8,6 +8,7 @@ awful.autofocus = require("awful.autofocus")
 local wibox     = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
+--themedir = awful.util.getdir("config") .. "/themes/powerarrow-darker"
 themedir = awful.util.getdir("config") .. "/themes/zenburn"
 beautiful.init(themedir .. "/theme.lua")
 
@@ -64,6 +65,35 @@ end
 terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+
+-- {{ These are the power arrow dividers/separators }} --                          
+arr1 = wibox.widget.imagebox()
+arr1:set_image(beautiful.arr1)
+arr2 = wibox.widget.imagebox()
+arr2:set_image(beautiful.arr2)
+arr3 = wibox.widget.imagebox()
+arr3:set_image(beautiful.arr3)
+arr4 = wibox.widget.imagebox()
+arr4:set_image(beautiful.arr4)
+arr5 = wibox.widget.imagebox()
+arr5:set_image(beautiful.arr5)
+arr6 = wibox.widget.imagebox()
+arr6:set_image(beautiful.arr6)
+arr7 = wibox.widget.imagebox()
+arr7:set_image(beautiful.arr7)
+arr8 = wibox.widget.imagebox()
+arr8:set_image(beautiful.arr8)
+arr9 = wibox.widget.imagebox()
+arr9:set_image(beautiful.arr9)
+
+
+arrl = wibox.widget.imagebox()                                                     
+arrl:set_image(beautiful.arrl)                                                     
+arrl_dl = wibox.widget.imagebox()                                                  
+arrl_dl:set_image(beautiful.arrl_dl)                                               
+arrl_ld = wibox.widget.imagebox()                                                  
+arrl_ld:set_image(beautiful.arrl_ld)  
+
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -309,9 +339,9 @@ end
   musicwidget = awesompd:create() -- Create awesompd widget
   musicwidget.font = beautiful.font or "Liberation Mono" -- Set widget font 
 --musicwidget.font_color = "#000000"	--Set widget font color
---musicwidget.background = "#FFFFFF"	--Set widget background
+  --musicwidget.background = "#313131"	--Set widget background
   musicwidget.scrolling = true -- If true, the text in the widget will be scrolled
-  musicwidget.output_size = 30 -- Set the size of widget in symbols
+  musicwidget.output_size = 25 -- Set the size of widget in symbols
   musicwidget.update_interval = 10 -- Set the update interval in seconds
 
   -- Set the folder where icons are located (change username to your login name)
@@ -332,7 +362,7 @@ end
 
   -- Specify how big in pixels should an album cover be. Maximum value
   -- is 100.
-  musicwidget.album_cover_size = 50
+  musicwidget.album_cover_size = 100
   
   -- This option is necessary if you want the album covers to be shown
   -- for your local tracks.
@@ -374,8 +404,83 @@ space:set_text(' ')
 mytextclock = awful.widget.textclock("%a %d %b %H:%M")
 cal.register(mytextclock, "<span color='#FF0000'><b>%s</b></span>")
 
+clockicon = wibox.widget.imagebox()
+clockicon:set_image(beautiful.clock)
+
+---{{---| Wifi Signal Widget |-------
+neticon = wibox.widget.imagebox()
+vicious.register(neticon, vicious.widgets.wifi, function(widget, args)
+    local sigstrength = tonumber(args["{link}"])
+    if sigstrength > 69 then
+        neticon:set_image(beautiful.nethigh)
+    elseif sigstrength > 40 and sigstrength < 70 then
+        neticon:set_image(beautiful.netmedium)
+    else
+        neticon:set_image(beautiful.netlow)
+    end
+end, 120, 'wlp2s0')
+
+--{{ Battery Widget }} --
+baticon = wibox.widget.imagebox()
+baticon:set_image(beautiful.baticon)
+
+battwidget = wibox.widget.textbox()
+vicious.register( battwidget, vicious.widgets.bat, '<span background="#92B0A0" font="Inconsolata 11"><span font="Inconsolata 11" color="#FFFFFF" background="#92B0A0">$1$2% </span></span>', 30, "BAT0" )
+
+----{{--| Volume / volume icon |----------
+volume = wibox.widget.textbox()
+
+volumeicon = wibox.widget.imagebox()
+vicious.register(volumeicon, vicious.widgets.volume, function(widget, args)
+    local paraone = tonumber(args[1])
+
+    if args[2] == "♩" or paraone == 0 then
+        volumeicon:set_image(beautiful.mute)
+    elseif paraone >= 67 and paraone <= 100 then
+        volumeicon:set_image(beautiful.volhi)
+    elseif paraone >= 33 and paraone <= 66 then
+        volumeicon:set_image(beautiful.volmed)
+    else
+        volumeicon:set_image(beautiful.vollow)
+    end
+
+end, 0.3, "Master")
+
+-- colours
+coldef  = "</span>"
+red  = "<span background='#ff0000'>"
+white  = "<span color='#cdcdcd'>"
+orange = "<span background='#ffa500' color='#000000'>"
+green = "<span color='#87af5f'>"
+--lightblue = "<span color='#7DC1CF'>"
+--blue = "<span foreground='#1793d1'>"
+--brown = "<span color='#db842f'>"
+--fuchsia = "<span color='#800080'>"
+--gold = "<span color='#e7b400'>"
+--yellow = "<span color='#e0da37'>"
+--lightpurple = "<span color='#eca4c4'>"
+--azure = "<span color='#80d9d8'>"
+--lightgreen = "<span color='#62b786'>"
+--font = "<span font='Source Code Pro 10'>"
+
 batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 67, "BAT1")
+vicious.register(batwidget, vicious.widgets.bat,
+function(widget, args)
+    if args[2]<=10 then
+        return red .. args[1].. args[2] .."%" .. coldef 
+    end
+    if args[2]>10 and args[2]<24 then
+        return orange .. args[1] .. args[2] .. "%" .. coldef 
+    else
+        return white .. args[1] .. args[2] .. "%" .. coldef
+    end
+end, 61, "BAT1")
+
+--batwidget_text = wibox.widget.textbox()
+--vicious.register(batwidget_text, vicious.widgets.bat, "$1$2%", 67, "BAT1")
+--local batwidget = wibox.widget.background()
+--batwidget:set_widget(batwidget_text)
+--batwidget:set_bg("#df7401")
 
 -- {{{ Volume
 --volicon = wibox.widget.imagebox()
@@ -462,7 +567,12 @@ mytasklist.buttons = awful.util.table.join(
 for s = 1, screen.count() do
 
 myscreennumber = wibox.widget.textbox()
-myscreennumber:set_text(s.."/"..screen.count()) 
+if screen.count() == 1 then 
+  text=""
+else
+  text=s.."/"..screen.count()
+end
+myscreennumber:set_text(text) 
 
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -492,6 +602,21 @@ myscreennumber:set_text(s.."/"..screen.count())
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    
+    --right_layout:add(arrl_dl)
+    --right_layout:add(musicwidget.widget)
+    --right_layout:add(arrl_ld)
+    ----right_layout:add(baticon)
+    --right_layout:add(batwidget)
+    --right_layout:add(arrl_dl)
+    ----right_layout:add(volumeicon)
+    --right_layout:add(volumewidget)
+    --right_layout:add(arrl_ld)
+    ----right_layout:add(clockicon)
+    --right_layout:add(mytextclock)
+    --right_layout:add(arrl_dl)
+    --right_layout:add(myscreennumber)
+
     right_layout:add(space)
     right_layout:add(musicwidget.widget)
     right_layout:add(space)
@@ -502,6 +627,7 @@ myscreennumber:set_text(s.."/"..screen.count())
     right_layout:add(mytextclock)
     right_layout:add(space)
     right_layout:add(myscreennumber)
+
     if s == screen.count() then right_layout:add(wibox.widget.systray()) end
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -593,17 +719,17 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     --awful.key({ modkey,           }, "a", revelation.revelation),
-    awful.key({ modkey,           }, "<", function () dmenuhelpers.run()                   end,"dmenu_run"), 
-    awful.key({ modkey, "Control" }, "<", function () dmenuhelpers.netcfg()                    end,"dmenu_netcfg"), 
-    awful.key({ modkey, "Shift"   }, "<", function () menu_clients()                    end,"open menu with applications"),
-    awful.key({ modkey, "Control" }, "q", function () dmenuhelpers.mpd()                       end), 
-    awful.key({ modkey,           }, "q", function () dmenuhelpers.system()                    end), 
+    awful.key({ modkey,           }, "<", function () dmenuhelpers.run()       end,"dmenu_run"), 
+    awful.key({ modkey, "Control" }, "<", function () dmenuhelpers.netcfg()    end,"dmenu_netcfg"), 
+    awful.key({ modkey, "Shift"   }, "<", function () menu_clients()           end,"open menu with applications"),
+    awful.key({ modkey, "Control" }, "q", function () dmenuhelpers.mpd()       end), 
+    awful.key({ modkey,           }, "q", function () dmenuhelpers.system()    end), 
     -- run or raise
     --awful.key({ modkey,           }, "w", function () awful.util.spawn("firefox")       end),
     --awful.key({ modkey,           }, "s", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root")       end),
     --
     awful.key({ modkey,           }, "c", function () awful.util.spawn("urxvt -e mutt") end),
-    awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -e newsbeuter") end),
+    --awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -e newsbeuter") end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("nautilus")       end),
@@ -618,9 +744,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
-    awful.key({ modkey, "Control" }, "w", function () dmenuhelpers.switchapp()                                        end),
+    awful.key({ modkey, "Control" }, "w", function () dmenuhelpers.switchapp()                         end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
-    awful.key({ modkey,           }, "d", awful.tag.history.restore),
+    --awful.key({ modkey,           }, "d", awful.tag.history.restore),
     awful.key({ modkey, "Shift"   }, "d", function () coverart()                                       end),
 ---- transset permet de modifier la transparence d'une fenêtre
     awful.key({ modkey,           }, "!", function () awful.util.spawn("transset-df -a --inc 0.1")     end),
@@ -630,7 +756,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "r",      function () lua_prompt()                    end),
     awful.key({ modkey }, "F3",     function () dmenuhelpers.expandtext()       end),
     awful.key({ modkey }, "F4",     function () unitconverter.manual_prompt()   end),
-    awful.key({ modkey }, "F5",     function () dmenuhelpers.pwd()              end),
+    awful.key({ modkey }, "F5",     function () dmenuhelpers.pwsafe()           end),
     awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
     awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
     awful.key({ modkey }, "F8",     function () unitconverter.prompt()          end),
@@ -767,13 +893,15 @@ awful.rules.rules = {
     --{ rule = { class = "mplayer" },
       --properties = { tag = tags[screen.count()][5], switchtotag = true } },
     { rule = { class = "Chromium" },
-      properties = { tag = tags[screen.count()][5] } },
+      properties = { tag = tags[screen.count()][5], switchtotag = true } },
     { rule = { class = "Firefox" },
       properties = { tag = tags[screen.count()][2] } },
     { rule = { name = "Redshiftgui" },
       properties = { floating = true               } },
     { rule = { name = "pomodairo" },
       properties = { floating = true, sticky =true } },
+    { rule = { class = "Animate" },
+      properties = { tag = tags[screen.count()][4] } },
     { rule = { class = "Hotot" },
       properties = { tag = tags[screen.count()][4] } },
     { rule = { class = "Pidgin" },
@@ -802,6 +930,8 @@ awful.rules.rules = {
       properties = { tag = tags[screen.count()][3], switchtotag = true } },
     { rule = { class = "Inkscape" },
       properties = { tag = tags[screen.count()][7] } },
+    { rule = { name = "newsbeuter" },
+      properties = { tag = tags[screen.count()][4], switchtotag = true } },
     { rule = { instance = "rootterm" },
       properties = { tag = tags[screen.count()][8], switchtotag = true } },
     { rule = { name = "ncmpcpp" },

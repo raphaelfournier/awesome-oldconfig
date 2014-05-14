@@ -83,8 +83,20 @@ function dmenuhelpers.expandtext()
   end
 end
 
+function dmenuhelpers.pwsafe()
+  pwdpath = "/home/raph/.awdp"
+  pwsafepwd = awful.util.pread("cat "..pwdpath):gsub("\n", "")
+  safepwd = "echo "..pwsafepwd.." | pwsafe "
+  service = awful.util.pread(safepwd.." -l | cut -d- -f1 | dmenu " .. dmenuopts)
+  login = awful.util.pread(safepwd.." -u "..service):gsub("\n", "")
+  awful.util.spawn_with_shell(safepwd.." -p "..service,false)
+  if login ~= "\n" and login ~= "" then
+    naughty.notify({ text = "service : "..service.."login : "..login, width = 400, screen = mouse.screen})
+  end
+end
+
 function dmenuhelpers.pwd()
-  pwdpath = "/home/raph/.pwd"
+  pwdpath = "/home/raph/.wdp"
   pwdfile = awful.util.pread("cat "..pwdpath):gsub("\n", "")
   service = awful.util.pread("cat "..pwdfile.." | grep -v ^# | cut -d: -f1 | dmenu " .. dmenuopts)
   linepwd = awful.util.pread("cat "..pwdfile.." | grep -i -m1 "..service):gsub("\n", "")

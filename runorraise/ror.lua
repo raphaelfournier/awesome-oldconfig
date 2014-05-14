@@ -12,6 +12,8 @@
 table5={
    --["e"]={"emacsclient -a emacs -n -c","Emacs"}, 
    ["w"]={"firefox","Firefox"}, 
+   ["d"]={"urxvt -e newsbeuter","newsbeuter","name"}, 
+   ["s"]={"urxvt -name \"rootterm\" -e su root","rootterm", "instance"} 
    --["XF86HomePage"]={"firefox","Firefox"}, 
    --["v"]={"firefox -new-window 'http://www.evernote.com/Home.action?login=true#v=l&so=mn'","Evernote", "name"}, 
    --["g"]={"firefox -new-window 'http://mail.google.com/mail/'","Gmail","name"}, 
@@ -21,5 +23,4 @@ table5={
    --["t"]={"xterm -name htopTerm -e htop","htopTerm","instance"}, 
    --["b"]={"xterm -name rtorrentTerm -e rtorrent","rtorrentTerm","instance"}, 
    --["w"]={"urxvt -e ncmpcpp","ncmpc", "name"},
-   ["s"]={"urxvt -name \"rootterm\" -e su root","rootterm", "instance"} 
 }
