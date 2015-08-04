@@ -27,6 +27,11 @@ local dmenuhelpers = require("dmenu-helpers")
 local unitconverter = require("unitconverter")
 
 local lain = require("lain")
+-- {{{ Wibox
+markup = lain.util.markup
+blue   = "#80CCE6"
+space3 = markup.font("Tamsyn 3", " ")
+space2 = markup.font("Tamsyn 2", " ")
 
 dmenuhelpers.textexppath = "/home/raph/.textexp"
 -- {{{ Error handling
@@ -113,18 +118,35 @@ local layouts =
     awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     awful.layout.suit.max.fullscreen,
-    lain.layout.termfair,
     lain.layout.centerwork,
-    lain.layout.uselesstile,
-    --lain.layout.cascade,
+    lain.layout.termfair,
+    --lain.layout.centerfair,
     awful.layout.suit.floating,
-    awful.layout.suit.max
+    lain.layout.rebrowse,
+    awful.layout.suit.max,
+    lain.layout.uselesstile,
     --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
+    awful.layout.suit.spiral,
+    --lain.layout.cascadebrowse,
+    --lain.layout.cascade,
+    --lain.layout.cascadetile,
+    --lain.layout.uselessfair,
     --awful.layout.suit.spiral.dwindle,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.mirror,
 }
+lain.layout.termfair.nmaster = 2
+lain.layout.termfair.ncol = 1
+
+lain.layout.centerfair.nmaster = 3
+lain.layout.centerfair.ncol = 1
+
+lain.layout.cascade.nmaster = 5
+lain.layout.cascadetile.cascade_offset_x = 2
+lain.layout.cascadetile.cascade_offset_y = 32
+lain.layout.cascadetile.extra_padding = 5
+lain.layout.cascadetile.nmaster = 5
+lain.layout.ncol = 2
 -- }}}
 
 -- {{{ Wallpaper
@@ -142,19 +164,31 @@ for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag({"work","web","mail","im","media","pdf","graph","root","term"}, s, { 
            layouts[11], 
-           layouts[11], 
-           layouts[11], 
+           layouts[10], 
+           layouts[10], 
            layouts[11], 
            layouts[11], 
            layouts[11], 
            layouts[1], 
            layouts[11], 
-           layouts[1]})
-  awful.tag.setproperty(tags[s][1], "mwfact", 0.72)
-  awful.tag.setproperty(tags[s][2], "mwfact", 0.72)
-  awful.tag.setproperty(tags[s][3], "mwfact", 0.54)
-  awful.tag.setproperty(tags[s][4], "mwfact", 0.62)
+           layouts[11]})
+  awful.tag.setproperty(tags[s][1], "mwfact", 0.62)
+  awful.tag.setproperty(tags[s][2], "mwfact", 0.78)
+  awful.tag.setproperty(tags[s][3], "mwfact", 0.67)
+  awful.tag.setproperty(tags[s][4], "mwfact", 0.72)
+  awful.tag.setproperty(tags[s][5], "mwfact", 0.67)
   awful.tag.setproperty(tags[s][7], "mwfact", 0.72)
+  awful.tag.setproperty(tags[s][3], "mwfact", 0.70)
+
+  awful.tag.setproperty(tags[s][1], "browsecol", 2)
+  awful.tag.setproperty(tags[s][2], "browsecol", 2)
+  awful.tag.setproperty(tags[s][3], "browsecol", 2)
+  awful.tag.setproperty(tags[s][4], "browsecol", 2)
+  awful.tag.setproperty(tags[s][5], "browsecol", 2)
+  awful.tag.setproperty(tags[s][6], "browsecol", 2)
+  awful.tag.setproperty(tags[s][7], "browsecol", 2)
+  awful.tag.setproperty(tags[s][8], "browsecol", 2)
+  awful.tag.setproperty(tags[s][9], "browsecol", 2)
 
      --awful.tag.seticon(themedir .. "/widgets/arch_10x10.png", tags[s][1])
      --awful.tag.seticon(themedir .. "/widgets/cat.png", tags[s][2])
@@ -402,10 +436,9 @@ space:set_text(' ')
 
 -- Create a textclock widget
 mytextclock = awful.widget.textclock("%a %d %b %H:%M")
-cal.register(mytextclock, "<span color='#FF0000'><b>%s</b></span>")
-
-clockicon = wibox.widget.imagebox()
-clockicon:set_image(beautiful.clock)
+cal.register(mytextclock) --, '<span color='#FF0000'><b>%s</b></span>')
+--clockicon = wibox.widget.imagebox()
+--clockicon:set_image(beautiful.clock)
 
 ---{{---| Wifi Signal Widget |-------
 neticon = wibox.widget.imagebox()
@@ -425,7 +458,7 @@ baticon = wibox.widget.imagebox()
 baticon:set_image(beautiful.baticon)
 
 battwidget = wibox.widget.textbox()
-vicious.register( battwidget, vicious.widgets.bat, '<span background="#92B0A0" font="Inconsolata 11"><span font="Inconsolata 11" color="#FFFFFF" background="#92B0A0">$1$2% </span></span>', 30, "BAT0" )
+vicious.register( battwidget, vicious.widgets.bat, '<span background="#92B0A0" font="Inconsolata 11"><span font="Inconsolata 11" color="#FFFFFF" background="#92B0A0">$1$2% </span></span>', 30, "BAT1" )
 
 ----{{--| Volume / volume icon |----------
 volume = wibox.widget.textbox()
@@ -474,7 +507,7 @@ function(widget, args)
     else
         return white .. args[1] .. args[2] .. "%" .. coldef
     end
-end, 61, "BAT1")
+end, 61, "BAT0")
 
 --batwidget_text = wibox.widget.textbox()
 --vicious.register(batwidget_text, vicious.widgets.bat, "$1$2%", 67, "BAT1")
@@ -488,10 +521,10 @@ end, 61, "BAT1")
 volumewidget = wibox.widget.textbox()
 vicious.register(volumewidget, vicious.widgets.volume, "$1%",2,"Master")
 volumewidget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () awful.util.spawn("amixer -q sset Master toggle", false) end),
-    awful.button({ }, 3, function () awful.util.spawn("".. terminal.. " -e alsamixer", true) end),
-    awful.button({ }, 4, function () awful.util.spawn("amixer -q sset Master 1dB+", false) end),
-    awful.button({ }, 5, function () awful.util.spawn("amixer -q sset Master 1dB-", false) end)
+    awful.button({ }, 1, function () awful.util.spawn("amixer -q -c 1 sset Master toggle", false) end),
+    awful.button({ }, 4, function () awful.util.spawn("amixer -q -c 1 sset Master 2dB+", false) end),
+    awful.button({ }, 5, function () awful.util.spawn("amixer -q -c 1 sset Master 2dB-", false) end),
+    awful.button({ }, 3, function () awful.util.spawn("".. terminal.. " -e alsamixer", true) end) --,
 ))
 
 --generalvolidget = wibox.widget.textbox() vicious.register(generalvolwidget, vicious.widgets.volume, "$1%",2,"PCM")
@@ -536,7 +569,10 @@ mytasklist.buttons = awful.util.table.join(
                                           end),
 -- un clic-molette sur le nom d'une fenetre dans la barre des tâches et elle est
 -- tuée
-                     awful.button({ }, 2, function (c)
+                     awful.button({  }, 2, function (c)
+                                              c:kill()
+                                          end),
+                     awful.button({ modkey }, 1, function (c)
                                               c:kill()
                                           end),
 -- permet à une fenetre d'être toujours sur le bureau courant                                          
@@ -706,7 +742,7 @@ globalkeys = awful.util.table.join(
     keydoc.group("Window manipulation"),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey,           }, "x", function () awful.util.spawn(terminal) end),
-    --awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -name \"rootterm\" -e su root") end),
+    awful.key({ modkey, "Shift"   }, "x", function () awful.util.spawn("urxvt -name \"slaveterm\"") end),
     awful.key({                   }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/marie/screenshots/ 2>/dev/null'") end),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
@@ -734,16 +770,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("nautilus")       end),
 
-    awful.key({ modkey,           }, "g", function () awful.util.spawn("amixer -q sset PCM 2%+")       end),
-    awful.key({ modkey, "Shift"   }, "g", function () awful.util.spawn("amixer -q sset PCM 1%-")       end),
-    awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q sset Master 2%+")    end),
-    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("amixer -q sset Master 1%-")    end),
-    awful.key({ modkey,           }, "b", function () awful.util.spawn("amixer -q sset Master toggle") end),
+    awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q -c 1 sset Master 2%+")    end),
+    awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("amixer -q -c 1 sset Master 1%-")    end),
+    awful.key({ modkey,           }, "b", function () awful.util.spawn("amixer -q -c 1 sset Master toggle") end),
     awful.key({ modkey,           }, "n", function () awful.util.spawn("mpc next")                     end),
     awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn("mpc prev")                     end),
     awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
+    --awful.key({ modkey, "Shift"   }, "s", function () awful.util.spawn("luakit http://ticktick.com")   end),
     awful.key({ modkey, "Control" }, "w", function () dmenuhelpers.switchapp()                         end),
     awful.key({ modkey, "Control" }, "a", function () awful.util.spawn("xscreensaver-command -lock")   end),
     --awful.key({ modkey,           }, "d", awful.tag.history.restore),
@@ -762,6 +797,13 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F8",     function () unitconverter.prompt()          end),
     awful.key({ modkey }, "F9",     function () stickynote()                    end),
     awful.key({ modkey }, "Menu",   function () dmenuhelpers.run()              end),
+
+    awful.key({  }, "XF86MonBrightnessUp", function ()  awful.util.spawn("xbacklight -inc 10")  end),
+    awful.key({  }, "XF86MonBrightnessDown", function ()  awful.util.spawn("xbacklight -dec 10")  end),
+
+    awful.key({  }, "XF86KbdBrightnessUp", function ()  awful.util.spawn("kbdlight up")  end),
+    awful.key({  }, "XF86KbdBrightnessDown", function ()  awful.util.spawn("kbdlight down")  end),
+
     awful.key({  }, "XF86AudioPrev", function ()  awful.util.spawn("mpc prev")  end),
     awful.key({  }, "XF86AudioNext", function ()  awful.util.spawn("mpc next")  end),
     awful.key({      }, "XF86Mail", function ()  awful.util.spawn("urxvt -e mutt")  end)
@@ -807,7 +849,10 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey, "Control" }, "Return", function (c) 
+      c:swap(awful.client.getmaster())
+      --naughty.notify({ text = awful.client.getmaster().name, timeout = 0, width = 400, screen=mouse.screen })
+    end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
@@ -882,7 +927,9 @@ awful.rules.rules = {
                      size_hints_honor = false,
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons },
+      --callback = awful.client.setslave
+    },
    { rule = { name = "Matplotlib"}, properties = { }, callback = not awful.client.setslave },
 -- permet d'assigner à chaque aplication un tag -> firefox toujours sur le tag
 -- 2, skype/msn sur le 4, les pdf sur le 6, gimp sur le 7, etc. -> d'ou les noms
@@ -892,8 +939,6 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     --{ rule = { class = "mplayer" },
       --properties = { tag = tags[screen.count()][5], switchtotag = true } },
-    { rule = { class = "Chromium" },
-      properties = { tag = tags[screen.count()][5], switchtotag = true } },
     { rule = { class = "Firefox" },
       properties = { tag = tags[screen.count()][2] } },
     { rule = { name = "Redshiftgui" },
@@ -922,14 +967,24 @@ awful.rules.rules = {
       properties = { screen = 1 } },
     { rule = { instance = "plugin-container" },
       properties = { floating = true } },
+    { rule = { class = "Wicd" },
+      properties = { tag = tags[screen.count()][8], switchtotag = true } },
+    { rule = { name = "mutt" },
+      properties = { tag = tags[screen.count()][3], switchtotag = true } },
     { rule = { class = "Evince" },
       properties = { tag = tags[screen.count()][6], switchtotag = true } },
     { rule = { class = "Thunderbird" },
       properties = { tag = tags[screen.count()][3] } },
-    { rule = { name = "mutt" },
-      properties = { tag = tags[screen.count()][3], switchtotag = true } },
+    { rule = { class = "feh" },
+      properties = { tag = tags[screen.count()][4],switchtotag = true  } },
+    { rule = { class = "Chromium" }, except = { name = "crx_eempgbpnkjnacmilmobpbhbfpdjdcpgd"},
+      properties = { tag = tags[screen.count()][5], switchtotag = true } },
+    { rule = { role = "app" },
+      properties = { tag = tags[screen.count()][9] } },
     { rule = { class = "Inkscape" },
       properties = { tag = tags[screen.count()][7] } },
+    { rule = { name = "alsamixer" },
+      properties = { tag = tags[screen.count()][8], switchtotag = true } },
     { rule = { name = "newsbeuter" },
       properties = { tag = tags[screen.count()][4], switchtotag = true } },
     { rule = { instance = "rootterm" },
@@ -941,7 +996,11 @@ awful.rules.rules = {
     { rule = { class = "Scribus" },
       properties = { tag = tags[screen.count()][7] } },
     { rule = { class = "LibreOffice" },
-      properties = { tag = tags[screen.count()][6], floating = false,  switchtotag = true, maximized_vertical = true, maximized_horizontal = true } },
+      properties = { tag = tags[screen.count()][6], floating = false, switchtotag = true, maximized_vertical = true, maximized_horizontal = true } },
+    { rule = { class = "Gorilla" },
+      properties = { tag = tags[screen.count()][7], switchtotag = true, floating = true } },
+    { rule = { class = "Openshot" },
+      properties = { tag = tags[screen.count()][7], floating = false } },
     { rule = { class = "Gimp" },
       properties = { tag = tags[screen.count()][7], floating = false } },
 }
@@ -961,7 +1020,9 @@ client.connect_signal("manage", function (c, startup)
     if not startup then
         -- Set the windows at the slave,
         -- i.e. put it at the end of others instead of setting it master.
-        -- awful.client.setslave(c)
+        if c.instance == "slaveterm" then
+          awful.client.setslave(c)
+        end
 
         -- Put windows in a smart way, only if they does not set an initial position.
         if not c.size_hints.user_position and not c.size_hints.program_position then

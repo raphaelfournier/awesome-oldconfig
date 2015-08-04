@@ -28,8 +28,9 @@ local awful = require("awful")
 local cal = {}
 
 local tooltip
+local cal_notification = nil
 local state = {}
-local current_day_format = "<u>%s</u>"
+local current_day_format = "%s"
 
 function displayMonth(month,year,weekStart)
 	local t,wkSt=os.time{year=year, month=month+1, day=0},weekStart or 1
@@ -57,20 +58,32 @@ function displayMonth(month,year,weekStart)
 		writeLine = writeLine + 1
 	end
 
+        local line = false
         for d=1,mthDays do
                 local x = d
+                local g=0
                 local t = os.time{year=year,month=month,day=d}
                 if writeLine == 8 then
                         writeLine = 1
+                        line = false
                         lines = lines .. "\n" .. os.date(" %V",t)
                 end
                 if os.date("%Y-%m-%d") == os.date("%Y-%m-%d", t) then
                         x = string.format(current_day_format, d)
+                        line = true
+                        g=1
                 end
+                --if d < 10 and not line then
                 if d < 10 then
                         x = " " .. x
                 end
-                lines = lines .. "  " .. x
+                if line==true and g==1 then
+                        lines = lines .. " =" .. x .. "="
+                elseif line==true and g==0 then
+                        lines = lines .. " " .. x .. " "
+                else
+                        lines = lines .. "  " .. x
+                end
                 writeLine = writeLine + 1
         end
         if stDay + mthDays < 36 then
@@ -93,7 +106,7 @@ function cal.register(mywidget, custom_current_day_format)
                 function tooltip:update()
                         local month, year = os.date('%m'), os.date('%Y')
                         state = {month, year}
-                        tooltip:set_text(string.format('<span font_desc="Inconsolata Medium 13">%s</span>', displayMonth(month, year, 2)))
+                        tooltip:set_text(string.format('%s', displayMonth(month, year, 2)))
                 end
                 tooltip:update()
 	end
@@ -130,7 +143,7 @@ end
 
 function switchMonth(delta)
 	state[1] = state[1] + (delta or 1)
-	local text = string.format('<span font_desc="Inconsolata Medium 13">%s</span>', displayMonth(state[1], state[2], 2))
+	local text = string.format('%s', displayMonth(state[1], state[2], 2))
 	tooltip:set_text(text)
 end
 

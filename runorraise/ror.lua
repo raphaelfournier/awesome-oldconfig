@@ -13,7 +13,8 @@ table5={
    --["e"]={"emacsclient -a emacs -n -c","Emacs"}, 
    ["w"]={"firefox","Firefox"}, 
    ["d"]={"urxvt -e newsbeuter","newsbeuter","name"}, 
-   ["s"]={"urxvt -name \"rootterm\" -e su root","rootterm", "instance"} 
+   ["s"]={"urxvt -name \"rootterm\" -e su root","rootterm", "instance"},
+   ["g"]={"urxvt -e alsamixer -c1","alsamixer", "instance"} 
    --["XF86HomePage"]={"firefox","Firefox"}, 
    --["v"]={"firefox -new-window 'http://www.evernote.com/Home.action?login=true#v=l&so=mn'","Evernote", "name"}, 
    --["g"]={"firefox -new-window 'http://mail.google.com/mail/'","Gmail","name"}, 

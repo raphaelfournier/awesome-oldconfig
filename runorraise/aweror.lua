@@ -89,11 +89,14 @@ function genfun(t3)
 end
 
 function aweror.genkeys(mod1)
-   rorkeys = awful.util.table.join()
+  rorkeys = awful.util.table.join()
   for i,v in pairs(allt1) do
-   rorkeys = awful.util.table.join(rorkeys,
-    awful.key({ mod1,}, i, genfun(v))
-    )
+    modifier=""
+    if i:len() > 1 then
+      modifier=i:sub(1, i:find("-")-1)
+      i=i:sub(-1,-1)
+    end
+    rorkeys = awful.util.table.join(rorkeys, awful.key({ mod1,}, i, genfun(v)))
   end
   return rorkeys
 end

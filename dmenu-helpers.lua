@@ -34,7 +34,8 @@ function dmenuhelpers.switchapp()
 end
 
 function dmenuhelpers.run() 
-  awful.util.spawn("dmenu_run -f -p 'Run command:' " .. dmenuopts) 
+  awful.util.spawn("dmenu_run -p 'Run command:' " .. dmenuopts) 
+  --awful.util.spawn("yeganesh -p \"run\" -- " .. dmenuopts) 
 end
 
 function dmenuhelpers.netcfg() 
@@ -48,7 +49,7 @@ function dmenuhelpers.mpd()
 end 
 
 function dmenuhelpers.system() 
-  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot\nvgaoff\nvgaoffsuspend\necran-24-dell\nvideoproj' | dmenu -p 'System' -f " .. dmenuopts)
+  choice = awful.util.pread("echo -e ' \nlogout\nsuspend\nhalt\nreboot\nvgaoff\nvgaoffsuspend\ndepart-cnam\necran-cnam\necran-24-dell\nvideoproj' | dmenu_run -p 'System' -f " .. dmenuopts)
   if     choice == "logout\n"   then awesome.quit()
   elseif choice == "halt\n"     then awful.util.spawn("sudo halt")
   elseif choice == "reboot\n"   then awful.util.spawn("sudo reboot")
@@ -56,6 +57,8 @@ function dmenuhelpers.system()
   elseif choice == "vgaoff\n"  then awful.util.spawn("xrandr --output VGA1 --off")
   elseif choice == "vgaoffsuspend\n"  then awful.util.spawn("xrandr --output VGA1 --off && sudo pm-suspend")
   elseif choice == "ecran-24-dell\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-dell24.sh")
+  elseif choice == "ecran-cnam\n"  then awful.util.spawn("sh /home/raph/scripts/ecran-cnam.sh")
+  elseif choice == "depart-cnam\n"  then awful.util.spawn("sh /home/raph/scripts/depart-cnam.sh")
   elseif choice == "tele\n"  then awful.util.spawn("xrandr --output VGA1 --mode 1360x768 --right-of LVDS1")
   elseif choice == "videoproj\n"     then awful.util.spawn("--output LVDS1 --mode 1024x768 --output VGA1 --mode 1024x768 --same-as LVDS1")
   else   choice = ""
@@ -86,7 +89,7 @@ end
 function dmenuhelpers.pwsafe()
   pwdpath = "/home/raph/.awdp"
   pwsafepwd = awful.util.pread("cat "..pwdpath):gsub("\n", "")
-  safepwd = "echo "..pwsafepwd.." | pwsafe "
+  safepwd = "echo "..pwsafepwd.." | pwsafe-cli -f ~/.pwsafe.datv2"
   service = awful.util.pread(safepwd.." -l | cut -d- -f1 | dmenu " .. dmenuopts)
   login = awful.util.pread(safepwd.." -u "..service):gsub("\n", "")
   awful.util.spawn_with_shell(safepwd.." -p "..service,false)
