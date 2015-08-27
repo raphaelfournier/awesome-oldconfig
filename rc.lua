@@ -413,7 +413,7 @@ end
   musicwidget.servers = {
      { server = "localhost",
           port = 6600 },
-     { server = "192.168.0.72",
+     { server = "192.168.0.46",
           port = 6600 }
   }
 
@@ -459,7 +459,7 @@ baticon = wibox.widget.imagebox()
 baticon:set_image(beautiful.baticon)
 
 battwidget = wibox.widget.textbox()
-vicious.register( battwidget, vicious.widgets.bat, '<span background="#92B0A0" font="Inconsolata 11"><span font="Inconsolata 11" color="#FFFFFF" background="#92B0A0">$1$2% </span></span>', 30, "BAT0" )
+vicious.register( battwidget, vicious.widgets.bat, '<span background="#92B0A0" font="Inconsolata 11"><span font="Inconsolata 11" color="#FFFFFF" background="#92B0A0">$1$2% </span></span>', 30, "BAT1" )
 
 ----{{--| Volume / volume icon |----------
 volume = wibox.widget.textbox()
@@ -654,8 +654,8 @@ myscreennumber:set_text(text)
     --right_layout:add(arrl_dl)
     --right_layout:add(myscreennumber)
 
-    right_layout:add(space)
-    right_layout:add(musicwidget.widget)
+    --right_layout:add(space)
+    --right_layout:add(musicwidget.widget)
     right_layout:add(space)
     right_layout:add(batwidget)
     right_layout:add(space)
@@ -792,7 +792,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "r",      function () lua_prompt()                    end),
     awful.key({ modkey }, "F3",     function () dmenuhelpers.expandtext()       end),
     awful.key({ modkey }, "F4",     function () unitconverter.manual_prompt()   end),
-    awful.key({ modkey }, "F5",     function () dmenuhelpers.pwsafe()           end),
+    awful.key({ modkey }, "F5",     function () dmenuhelpers.pass()             end),
     awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
     awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
     awful.key({ modkey }, "F8",     function () unitconverter.prompt()          end),

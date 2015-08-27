@@ -86,6 +86,11 @@ function dmenuhelpers.expandtext()
   end
 end
 
+function dmenuhelpers.pass()
+  cmd = "passmenu " .. dmenuopts
+  awful.util.spawn(cmd)
+  naughty.notify({ text = "service : ".. cmd, width = 400, screen = mouse.screen})
+end
 function dmenuhelpers.pwsafe()
   pwdpath = "/home/raph/.awdp"
   pwsafepwd = awful.util.pread("cat "..pwdpath):gsub("\n", "")
