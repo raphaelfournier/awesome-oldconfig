@@ -12,6 +12,9 @@ local beautiful = require("beautiful")
 themedir = awful.util.getdir("config") .. "/themes/zenburn"
 beautiful.init(themedir .. "/theme.lua")
 
+--package.path = package.path .. '/usr/lib/python3.5/site-packages/powerline/bindings/awesome/'
+--require('powerline')
+
 -- Notification library
 local naughty   = require("naughty")
 require("naughtydefaults")
@@ -169,7 +172,7 @@ for s = 1, screen.count() do
            layouts[11], 
            layouts[11], 
            layouts[11], 
-           layouts[1], 
+           layouts[9], --floating, pour Gimp
            layouts[11], 
            layouts[11]})
   awful.tag.setproperty(tags[s][1], "mwfact", 0.62)
@@ -722,7 +725,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "z", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
+    awful.key({ modkey,           }, "y", function () mymainmenu:toggle({keygrabber=true, coords={x=25, y=30} })        end),
 
     -- Layout manipulation
     keydoc.group("Layout manipulation"),
@@ -755,7 +758,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
-    --awful.key({ modkey,           }, "a", revelation.revelation),
     awful.key({ modkey,           }, "<", function () dmenuhelpers.run()       end,"dmenu_run"), 
     awful.key({ modkey, "Control" }, "<", function () dmenuhelpers.netcfg()    end,"dmenu_netcfg"), 
     awful.key({ modkey, "Shift"   }, "<", function () menu_clients()           end,"open menu with applications"),
@@ -774,9 +776,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "v", function () awful.util.spawn("amixer -q -c 1 sset Master 2%+")    end),
     awful.key({ modkey, "Shift"   }, "v", function () awful.util.spawn("amixer -q -c 1 sset Master 1%-")    end),
     awful.key({ modkey,           }, "b", function () awful.util.spawn("amixer -q -c 1 sset Master toggle") end),
-    awful.key({ modkey,           }, "n", function () awful.util.spawn("mpc next")                     end),
-    awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn("mpc prev")                     end),
-    awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
+    awful.key({ modkey,           }, "n", function () awful.util.spawn("playerctl --player=spotify next")                     end),
+    awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn("playerctl --player=spotify previous")                     end),
+    awful.key({ modkey,           }, ",", function () awful.util.spawn("playerctl --player=spotify play-pause")                   end),
+    --awful.key({ modkey,           }, "n", function () awful.util.spawn("mpc next")                     end),
+    --awful.key({ modkey, "Shift"   }, "n", function () awful.util.spawn("mpc prev")                     end),
+    --awful.key({ modkey,           }, ",", function () awful.util.spawn("mpc toggle")                   end),
     awful.key({ modkey,  "Shift"  }, ",", function () awful.util.spawn("mpc stop")                     end),
     awful.key({ modkey, "Shift"   }, "w", function () awful.util.spawn("urxvtc -e ncmpcpp")            end),
     --awful.key({ modkey, "Shift"   }, "s", function () awful.util.spawn("luakit http://ticktick.com")   end),
@@ -788,13 +793,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "!", function () awful.util.spawn("transset-df -a --inc 0.1")     end),
     awful.key({ modkey, "Shift"   }, "!", function () awful.util.spawn("transset-df -a --dec 0.1")     end),
 -- Prompts
+    awful.key({ modkey }, "z",     function () dmenuhelpers.pass()             end),
+    awful.key({ modkey }, "a",     function () dmenuhelpers.expandtext()       end),
     awful.key({ modkey }, "Return", function () mypromptbox[mouse.screen]:run() end),
     awful.key({ modkey }, "r",      function () lua_prompt()                    end),
-    awful.key({ modkey }, "F3",     function () dmenuhelpers.expandtext()       end),
-    awful.key({ modkey }, "F4",     function () unitconverter.manual_prompt()   end),
-    awful.key({ modkey }, "F5",     function () dmenuhelpers.pass()             end),
-    awful.key({ modkey }, "F6",     function () calc_prompt()                   end),
-    awful.key({ modkey }, "F7",     function () dict_prompt()                   end),
+    awful.key({ modkey }, "F3",     function () dict_prompt()                   end),
+    awful.key({ modkey }, "F7",     function () calc_prompt()                   end),
     awful.key({ modkey }, "F8",     function () unitconverter.prompt()          end),
     awful.key({ modkey }, "F9",     function () stickynote()                    end),
     awful.key({ modkey }, "Menu",   function () dmenuhelpers.run()              end),
@@ -942,6 +946,8 @@ awful.rules.rules = {
       --properties = { tag = tags[screen.count()][5], switchtotag = true } },
     { rule = { class = "Firefox" },
       properties = { tag = tags[screen.count()][2] } },
+    { rule = { instance = "TogglDesktop" },
+      properties = { floating = true               } },
     { rule = { name = "Redshiftgui" },
       properties = { floating = true               } },
     { rule = { name = "pomodairo" },
@@ -974,9 +980,11 @@ awful.rules.rules = {
       properties = { tag = tags[screen.count()][3], switchtotag = true } },
     { rule = { class = "Evince" },
       properties = { tag = tags[screen.count()][6], switchtotag = true } },
+    { rule = { class = "Spotify" },
+      properties = { tag = tags[screen.count()][9] } },
     { rule = { class = "Thunderbird" },
       properties = { tag = tags[screen.count()][3] } },
-    { rule = { class = "Chromium" }, except = { name = "crx_eempgbpnkjnacmilmobpbhbfpdjdcpgd"},
+    { rule = { class = "chromium" }, except = { name = "crx_eempgbpnkjnacmilmobpbhbfpdjdcpgd"},
       properties = { tag = tags[screen.count()][5], switchtotag = true } },
     { rule = { role = "app" },
       properties = { tag = tags[screen.count()][9] } },

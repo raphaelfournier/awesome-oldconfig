@@ -10,7 +10,7 @@ local dmenuhelpers = {}
 
 --dmenuopts = "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.bg_urgent.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
 -- add -z to do fuzzy matching
-dmenuopts = "-b -i -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.border_focus.."' -sb '"..beautiful.bg_focus.."' -fn '-*-dejavu sans mono-*-r-*-*-*-*-*-*-*-*-*-*'"
+dmenuopts = "-b -i -fn 'Inconsolata, Medium-18' -nf '"..beautiful.fg_normal.."' -nb '"..beautiful.bg_normal.."' -sf '"..beautiful.border_focus.."' -sb '"..beautiful.bg_focus.."'"
 
 function dmenuhelpers.switchapp()
   local allclients = client.get(mouse.screen)
@@ -77,20 +77,21 @@ function dmenuhelpers.expandtext()
   textexpfile = "/home/raph/.textexp"
   service = awful.util.pread("cat "..textexpfile.." | grep -v ^# | cut -d: -f1 | dmenu -l 10 " .. dmenuopts)
   linetextexp = awful.util.pread("cat "..textexpfile.." | grep -i -m1 "..service):gsub("\n", "")
-  textexp = awful.util.pread("echo " .. linetextexp .. " | cut -d: -f2-"):gsub("\n", "")
+  --textexp = awful.util.pread("echo " .. linetextexp .. " | cut -d: -f2-"):gsub("\n", "")
+  textexp = awful.util.pread("echo " .. '"' .. linetextexp .. '"' .. " | cut -d: -f2-"):gsub("\n", "")
   if textexp ~= "\n" and textexp ~= "" then
     textexp = string.gsub(textexp, " bb ", "\n")
     naughty.notify({ text = "service : "..service, width = 400, screen = mouse.screen})
-    selectcommand = "echo '" .. textexp .. "' | xsel -i"
+    selectcommand = "xdotool type --clearmodifiers -- ".. '"' .. textexp .. '"'
+    --selectcommand = "echo '" .. textexp .. "' | xsel -i"
     awful.util.spawn_with_shell(selectcommand,false)
   end
 end
 
 function dmenuhelpers.pass()
-  cmd = "passmenu " .. dmenuopts
-  awful.util.spawn(cmd)
-  naughty.notify({ text = "service : ".. cmd, width = 400, screen = mouse.screen})
+  awful.util.spawn("passmenu --type " .. dmenuopts)
 end
+
 function dmenuhelpers.pwsafe()
   pwdpath = "/home/raph/.awdp"
   pwsafepwd = awful.util.pread("cat "..pwdpath):gsub("\n", "")

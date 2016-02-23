@@ -11,7 +11,7 @@
 --module("ror")
 table5={
    --["e"]={"emacsclient -a emacs -n -c","Emacs"}, 
-   ["w"]={"firefox","Firefox"}, 
+   ["w"]={"chromium","chromium", "instance"},
    ["d"]={"urxvt -e newsbeuter","newsbeuter","name"}, 
    ["s"]={"urxvt -name \"rootterm\" -e su root","rootterm", "instance"},
    ["g"]={"urxvt -e alsamixer -c1","alsamixer", "instance"} 
